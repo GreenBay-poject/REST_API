@@ -71,7 +71,7 @@ TEMPLATES = [
             ],
         },
     },
-]
+] 
 
 WSGI_APPLICATION = 'back_end_rest_api.wsgi.application'
 
@@ -79,11 +79,18 @@ WSGI_APPLICATION = 'back_end_rest_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+DATABASES={
+     'default':{
+    'ENGINE': 'djongo',
+    'NAME': 'back_rest_api',
+    'CLIENT': {
+        'host':'mongodb+srv://greenbaypid3:supirikollo3@cluster0.w7tcg.mongodb.net/back_rest_api?retryWrites=true&w=majority',
+       'port': 27017,
+       'username': 'greenbaypid3',
+       'password': 'supirikollo3'
     }
+  }
+
 }
 
 
