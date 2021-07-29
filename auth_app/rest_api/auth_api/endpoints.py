@@ -8,11 +8,12 @@ from django.http.response import JsonResponse
 from rest_framework import status
 import json
 import logging
-from auth_app.rest_api.auth_api.validators import validate_register_data
+from auth_app.rest_api.auth_api.validators import validate_register_data,\
+    validate_login_data, validate_logout_data
 from auth_app.sub_models.Users import Users
 from datetime import datetime
 from auth_app.rest_api.auth_api.handlers import generate_password,\
-    send_password_to
+    send_password_to, generate_token
 from _md5 import md5
 import hashlib
 
@@ -64,4 +65,104 @@ def registeruser(request):
     except Exception as e:
         # Unexpected Exception Occured
         return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+
+@api_view(['POST'])
+def loginuser(request):
+    try:
+        print("IAM 0")
+        #Convert request to Python Dictionary 
+        body=json.loads(request.body)
+        # Check whether data fields are valid
+        if(validate_login_data(body)):
+            # Get User data
+            user_list=Users.objects.filter(UserEmail=body['email']);
+            count_of_existance=user_list.count()
+            print(count_of_existance)
+            # If user not registered
+            if(count_of_existance==0):
+                return JsonResponse({'Message':"Not Registered"},status=status.HTTP_400_BAD_REQUEST)
+            # User registered
+            else:
+                print("A")
+                print(str(user_list))
+                # get user object
+                user=user_list.first()
+                # check password
+                incoming_password=hashlib.sha256(str(body['password']).encode('utf-8')).hexdigest()
+                password_in_db=user.UserPassword
+                # password invalid
+                if(incoming_password!=password_in_db):
+                    return JsonResponse({'Message':"Wrong Password"},status=status.HTTP_400_BAD_REQUEST)
+                # password valid
+                else:
+                    print("IM D")
+                    token=generate_token()
+                    print("IM A")
+                    tokenlist=user.Tokens
+                    print(tokenlist)
+                    tokenlist.append(token)
+                    user.Tokens=tokenlist
+                    print("IM B")
+                    user.save()
+                    json_response={"UserID":user.UserId,
+                          "UserName":user.UserName,
+                          "UserEmail":user.UserEmail,
+                          "Gender":user.Gender,
+                          "Age":user.UserAge,
+                          "PostalCode":user.PostalCode,
+                          "Token":token}
+                    return JsonResponse(json_response,status=status.HTTP_200_OK)
+        else:
+            # Invalid Fields
+            return JsonResponse({'Message':"Validation Failed"},status=status.HTTP_400_BAD_REQUEST)
+        
+    except Exception as e:
+        # Unexpected Exception Occured
+        return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+
+
+@api_view(['POST'])
+def logout(request):
+    try:
+        print("IAM 0")
+        #Convert request to Python Dictionary 
+        body=json.loads(request.body)
+        # Check whether data fields are valid
+        if(validate_logout_data(body)):
+            # Get User data
+            user_list=Users.objects.filter(UserEmail=body['email']);
+            count_of_existance=user_list.count()
+            print(count_of_existance)
+            # If user not registered
+            if(count_of_existance==0):
+                return JsonResponse({'Message':"Not Registered"},status=status.HTTP_400_BAD_REQUEST)
+            # User registered
+            else:
+                print(str(user_list))
+                # get user object
+                user=user_list.first()
+                token=body['Token']
+                print(token)
+                if not(token in user.Tokens):
+                    return JsonResponse({'Message':"Already Logged Out"},status=status.HTTP_400_BAD_REQUEST)
+                # password valid
+                else:
+                    user.Tokens.remove(body['Token'])
+                    user.save()
+                    return JsonResponse({"Message": "logged out Successfully"},status=status.HTTP_200_OK)
+        else:
+            # Invalid Fields
+            return JsonResponse({'Message':"Validation Failed"},status=status.HTTP_400_BAD_REQUEST)
+        
+    except Exception as e:
+        # Unexpected Exception Occured
+        return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
         

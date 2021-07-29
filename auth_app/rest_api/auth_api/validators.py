@@ -17,3 +17,19 @@ def validate_register_data(body):
         return False
     
     return True
+
+def validate_login_data(body):
+    if('email' not in body.keys()):
+        return False
+    if('password' not in body.keys()):
+        return False
+    
+    return True
+
+def validate_logout_data(body):
+    if('email' not in body.keys()):
+        return False
+    if('Token' not in body.keys()):
+        return False
+    
+    return True
