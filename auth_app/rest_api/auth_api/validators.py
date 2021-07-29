@@ -33,3 +33,10 @@ def validate_logout_data(body):
         return False
     
     return True
+
+def validate_forget_password_data(body):
+    if('email' not in body.keys()):
+        return False
+    
+    return True
+

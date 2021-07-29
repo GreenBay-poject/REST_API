@@ -9,13 +9,14 @@ from rest_framework import status
 import json
 import logging
 from auth_app.rest_api.auth_api.validators import validate_register_data,\
-    validate_login_data, validate_logout_data
+    validate_login_data, validate_logout_data, validate_forget_password_data
 from auth_app.sub_models.Users import Users
 from datetime import datetime
 from auth_app.rest_api.auth_api.handlers import generate_password,\
     send_password_to, generate_token
 from _md5 import md5
 import hashlib
+from auth_app.sub_models.AuthPrivilage import AuthSerializer, AuthPrivilage
 
 
 @api_view(['POST'])
@@ -107,13 +108,20 @@ def loginuser(request):
                     user.Tokens=tokenlist
                     print("IM B")
                     user.save()
-                    json_response={"UserID":user.UserId,
+                    
+                    
+                    auth_serializer=AuthSerializer(user.AuthAccess,many=True)
+                    print(auth_serializer.data)
+                    json_response={
+                          "UserID":user.UserId,
                           "UserName":user.UserName,
                           "UserEmail":user.UserEmail,
                           "Gender":user.Gender,
                           "Age":user.UserAge,
                           "PostalCode":user.PostalCode,
-                          "Token":token}
+                          "Token":token,
+                          "Privilege":auth_serializer.data
+                          }
                     return JsonResponse(json_response,status=status.HTTP_200_OK)
         else:
             # Invalid Fields
@@ -145,15 +153,24 @@ def logout(request):
             # User registered
             else:
                 print(str(user_list))
-                # get user object
+                # get user object and token value
                 user=user_list.first()
                 token=body['Token']
                 print(token)
-                if not(token in user.Tokens):
+                # get token object of the value
+                token_found=False
+                token_obj=None
+                for token_dict in user.Tokens:
+                    if token_dict['value']==token:
+                        token_found=True
+                        token_obj=token_dict
+                        break
+                    
+                if not(token_found):
                     return JsonResponse({'Message':"Already Logged Out"},status=status.HTTP_400_BAD_REQUEST)
                 # password valid
                 else:
-                    user.Tokens.remove(body['Token'])
+                    user.Tokens.remove(token_obj)
                     user.save()
                     return JsonResponse({"Message": "logged out Successfully"},status=status.HTTP_200_OK)
         else:
@@ -165,4 +182,44 @@ def logout(request):
         return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+@api_view(['POST'])
+def forget_password(request):
+    try:
+        print("IAM 0")
+        #Convert request to Python Dictionary 
+        body=json.loads(request.body)
+        # Check whether data fields are valid
+        if(validate_forget_password_data(body)):
+            # Get User data
+            user_list=Users.objects.filter(UserEmail=body['email']);
+            count_of_existance=user_list.count()
+            print(count_of_existance)
+            # If user not registered
+            if(count_of_existance==0):
+                return JsonResponse({'Message':"Not Registered"},status=status.HTTP_400_BAD_REQUEST)
+            # User registered
+            else:
+                print(str(user_list))
+                # get user object and token value
+                user=user_list.first()
+                
+                password = generate_password()
+                # Assign Password
+                user.UserPassword=hashlib.sha256(str(password).encode('utf-8')).hexdigest()
+                print("IAM 2")
+                # Send Password via a mail
+                send_password_to(user,password)
+                # Save user to MongoDB
+                user.save()
+                
+                return JsonResponse({"Message": "New Password Sent to Email Successfully"},status=status.HTTP_200_OK)
+        else:
+            # Invalid Fields
+            return JsonResponse({'Message':"Validation Failed"},status=status.HTTP_400_BAD_REQUEST)
         
+    except Exception as e:
+        # Unexpected Exception Occured
+        return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+ 

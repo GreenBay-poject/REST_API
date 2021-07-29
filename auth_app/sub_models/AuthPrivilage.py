@@ -8,6 +8,7 @@ from djongo import models
 from django.forms import ModelForm
 from auth_app.sub_models.Answeres import Answeres
 from auth_app.sub_models.Posts import Posts
+from rest_framework import serializers
 
 class AuthPrivilage(models.Model):
     ministry=models.CharField(max_length=200)
@@ -22,5 +23,11 @@ class AuthPrivilage(models.Model):
         on_delete=models.CASCADE,
     )
     
+    
+class AuthSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AuthPrivilage
+        fields = ('ministry', 'position','AnswereList','FeedPosts')
+
     
     
