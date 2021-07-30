@@ -10,6 +10,7 @@ from back_end_rest_api.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
 from auth_app.sub_models.Token import Token
 from _datetime import datetime
+
 def generate_password():
     return ''.join(choice(ascii_uppercase) for i in range(12))
 
