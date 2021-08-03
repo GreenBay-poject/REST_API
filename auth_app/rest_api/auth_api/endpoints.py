@@ -17,6 +17,10 @@ from auth_app.rest_api.auth_api.handlers import generate_password,\
 from _md5 import md5
 import hashlib
 from auth_app.sub_models.AuthPrivilage import AuthSerializer, AuthPrivilage
+from back_end_rest_api.decorators import role_required
+from django.views.decorators.csrf import csrf_exempt
+from auth_app.access_controllers.roles import ALLOWS_ALL,\
+    ALLOWS_REGULAR_AND_MINISTRY_USERS
 
 
 @api_view(['POST'])
@@ -69,8 +73,8 @@ def registeruser(request):
 
 
 
-
-@api_view(['POST'])
+@csrf_exempt
+@role_required(ALLOWS_REGULAR_AND_MINISTRY_USERS)
 def loginuser(request):
     try:
         print("IAM 0")

@@ -5,15 +5,19 @@ Created on Jul 25, 2021
 '''
 from djongo import models
 from django.forms.models import ModelForm
+from auth_app.sub_models.Users import Users
 
 class Answeres(models.Model):
-    AnswereId=models.AutoField(primary_key=True)
-    Answere=models.CharField(max_length=200)
+    Answere=models.CharField(max_length=2000)
     DatePosted=models.DateTimeField()
-# class AnsweresForm(ModelForm):
-# 
-#     class Meta:
-#         model = Answeres
-#         fields = (
-#             'AnswereId','Answere','DatePosted'
-#         )
+    AuthorsID=models.CharField(max_length=500)
+    class Meta:
+        abstract=True
+class AnsweresForm(ModelForm):
+ 
+        class Meta:
+            model = Answeres
+            fields = (
+                'Answere','DatePosted','AuthorsID'
+             
+            )

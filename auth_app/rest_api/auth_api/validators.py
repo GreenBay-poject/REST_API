@@ -17,7 +17,10 @@ def validate_register_data(body):
         return False
     
     return True
-
+REGISTER_DATA=['name','email','age','gender','postalcode']
+LOGIN_DATA=['email','password']
+LOGOUT_DATA=['email']
+FORGET_PASSWORD_DATA=['email']
 def validate_login_data(body):
     if('email' not in body.keys()):
         return False
