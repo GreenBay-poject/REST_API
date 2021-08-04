@@ -16,7 +16,7 @@ from auth_app.rest_api.auth_api.handlers import generate_password,\
     send_password_to, generate_token
 from _md5 import md5
 import hashlib
-from auth_app.sub_models.AuthPrivilage import AuthSerializer, AuthPrivilage
+from auth_app.sub_models.AuthPrivilage import AuthPrivilage
 from back_end_rest_api.decorators import role_required
 from django.views.decorators.csrf import csrf_exempt
 from auth_app.access_controllers.roles import ALLOWS_ALL,\
@@ -114,19 +114,19 @@ def loginuser(request):
                     user.save()
                     
                     
-                    auth_serializer=AuthSerializer(user.AuthAccess,many=True)
-                    print(auth_serializer.data)
-                    json_response={
-                          "UserID":user.UserId,
-                          "UserName":user.UserName,
-                          "UserEmail":user.UserEmail,
-                          "Gender":user.Gender,
-                          "Age":user.UserAge,
-                          "PostalCode":user.PostalCode,
-                          "Token":token,
-                          "Privilege":auth_serializer.data
-                          }
-                    return JsonResponse(json_response,status=status.HTTP_200_OK)
+#                     #auth_serializer=AuthSerializer(user.AuthAccess,many=True)
+#                     print(auth_serializer.data)
+#                     json_response={
+#                           "UserID":user.UserId,
+#                           "UserName":user.UserName,
+#                           "UserEmail":user.UserEmail,
+#                           "Gender":user.Gender,
+#                           "Age":user.UserAge,
+#                           "PostalCode":user.PostalCode,
+#                           "Token":token,
+#                           "Privilege":auth_serializer.data
+#                           }
+                    return JsonResponse("json_response",status=status.HTTP_200_OK)
         else:
             # Invalid Fields
             return JsonResponse({'Message':"Validation Failed"},status=status.HTTP_400_BAD_REQUEST)

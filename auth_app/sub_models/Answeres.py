@@ -5,7 +5,6 @@ Created on Jul 25, 2021
 '''
 from djongo import models
 from django.forms.models import ModelForm
-from auth_app.sub_models.Users import Users
 
 class Answeres(models.Model):
     Answere=models.CharField(max_length=2000)
