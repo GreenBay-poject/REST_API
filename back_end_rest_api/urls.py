@@ -17,5 +17,5 @@ Including another URLconf
 from django.conf.urls import url, include 
 
 urlpatterns = [
-    url('^auth/', include('auth_app.rest_api.auth_api.auth_urls')),
+    url('^auth/', include('app.EndpointUrls.Auth_urls')),
 ]
