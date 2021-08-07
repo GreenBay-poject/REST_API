@@ -8,6 +8,7 @@ class Users(models.Model):
     UserEmail=models.EmailField(max_length=50)
     UserPassword=models.CharField(max_length=50)
     UserAge=models.IntegerField()
+    IsAuhtorized=models.BooleanField()
     Gender=models.CharField(max_length=200)
     Address=models.CharField(max_length=500)
     PostalCode=models.IntegerField()
@@ -87,3 +88,9 @@ class Users(models.Model):
 
     def set_privilage(self, value):
         self.Privilage = value
+    
+    def get_is_auhtorized(self):
+        return self.IsAuhtorized
+
+    def set_is_auhtorized(self, value):
+        self.IsAuhtorized = value
