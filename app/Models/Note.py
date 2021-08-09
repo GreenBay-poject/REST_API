@@ -8,22 +8,22 @@ class Note(models.Model):
     text=models.CharField(max_length=200)
     
     def get_lat(self):
-        return self.__lat
+        return self.lat
 
     def get_lon(self):
-        return self.__lon
+        return self.lon
 
     def get_text(self):
-        return self.__text
+        return self.text
 
     def set_lat(self, value):
-        self.__lat = value
+        self.lat = value
 
     def set_lon(self, value):
-        self.__lon = value
+        self.lon = value
 
     def set_text(self, value):
-        self.__text = value
+        self.text = value
 
     class Meta:
         abstract = True

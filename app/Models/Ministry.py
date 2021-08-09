@@ -5,7 +5,7 @@ class Ministry(models.Model):
     ministry_name=models.CharField(max_length=200)
 
     def get_ministry_name(self):
-        return self.__ministry_name
+        return self.ministry_name
 
     def set_ministry_name(self, value):
-        self.__ministry_name = value 
+        self.ministry_name = value 

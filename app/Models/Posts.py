@@ -9,28 +9,28 @@ class Posts(models.Model):
     DatePosted=models.DateTimeField()
 
     def get_title(self):
-        return self.__Title
+        return self.Title
 
     def get_image(self):
-        return self.__Image
+        return self.Image
 
     def get_description(self):
-        return self.__Description
+        return self.Description
 
     def get_date_posted(self):
-        return self.__DatePosted
+        return self.DatePosted
 
     def set_title(self, value):
-        self.__Title = value
+        self.Title = value
 
     def set_image(self, value):
-        self.__Image = value
+        self.Image = value
 
     def set_description(self, value):
-        self.__Description = value
+        self.Description = value
 
     def set_date_posted(self, value):
-        self.__DatePosted = value
+        self.DatePosted = value
     
     class Meta:
         abstract = True

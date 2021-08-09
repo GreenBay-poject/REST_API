@@ -12,25 +12,25 @@ class Questions(models.Model):
     )
 
     def get_title(self):
-        return self.__Title
+        return self.Title
 
     def get_question(self):
-        return self.__Question
+        return self.Question
 
     def get_date_posted(self):
-        return self.__DatePosted
+        return self.DatePosted
 
     def get_answeres_list(self):
-        return self.__AnsweresList
+        return self.AnsweresList
 
     def set_title(self, value):
-        self.__Title = value
+        self.Title = value
 
     def set_question(self, value):
-        self.__Question = value
+        self.Question = value
 
     def set_date_posted(self, value):
-        self.__DatePosted = value
+        self.DatePosted = value
 
     def set_answeres_list(self, value):
-        self.__AnsweresList = value  
+        self.AnsweresList = value  

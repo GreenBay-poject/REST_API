@@ -8,13 +8,16 @@ import hashlib
 from django.views.decorators.csrf import csrf_exempt
 from app.Validator.Validator import require_validation
 from app.Validator.RequiredFields import REGISTER_FIELDS, LOGIN_FIELDS,\
-    LOGOUT_FIELDS, FORGET_PASSWORD_FIELDS
+    LOGOUT_FIELDS, FORGET_PASSWORD_FIELDS, REGISTER_AUTH_FIELDS
 from app.AccessController.Rules import role_required
 from app.AccessController.Roles import ALLOWS_ALL,\
     ALLOWS_REGULAR_AND_MINISTRY_USERS
 from app.Helpers.Auth_Helper import generate_password, send_password_to,\
     generate_token
 from app.Models.GeneralPrivilage import GeneralPrivilage
+from back_end_rest_api.settings import SECRET_CODE
+from app.Models.AuthPrivilage import AuthPrivilage
+from app.Models.Ministry import Ministry
 
 @csrf_exempt
 @api_view(['POST'])
@@ -47,8 +50,7 @@ def registeruser(request):
             # Assign Password
             user.UserPassword=hashlib.sha256(str(password).encode('utf-8')).hexdigest()
             print("IAM 2")
-            # Send Password via a mail
-            send_password_to(user,password)
+            
             # Create General Privilege Object,Save,GetID
             general_privilege=GeneralPrivilage()
             general_privilege.set_question_list([])
@@ -56,6 +58,8 @@ def registeruser(request):
             # Set Object ID to User
             user.set_is_auhtorized(False)
             user.set_privilage(general_privilege.pk)
+            # Send Password via a mail
+            send_password_to(user,password)
             # Save user to MongoDB
             user.save()
             print("IAM 3")
@@ -190,4 +194,91 @@ def forget_password(request):
         
     except Exception as e:
         # Unexpected Exception Occurred
-        return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)  
+        return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR) 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+@csrf_exempt
+@api_view(['POST'])
+@require_validation(REGISTER_AUTH_FIELDS)
+@role_required(ALLOWS_ALL)
+def register_auth_user(request):
+    try:
+        #Convert request to Python Dictionary 
+        body=json.loads(request.body)
+        
+        # Check Secret Code
+        if body['secret_code']!=SECRET_CODE:
+            return JsonResponse({'Message':"Secret Code Invalid"},status=status.HTTP_400_BAD_REQUEST)
+        
+        
+        
+        count_of_existance=Users.objects.filter(UserEmail=body['email']).count()
+        print(count_of_existance)
+        # If user already registred
+        if(count_of_existance>0):
+            return JsonResponse({'Message':"Already Registered"},status=status.HTTP_400_BAD_REQUEST)
+        # User not registered before
+        else:
+            # Create user object
+            user=Users()
+            user.set_user_name(body['name']) 
+            user.set_user_email(body['email']) 
+            user.set_user_age(body['age'])
+            user.set_gender(body['gender'])
+            user.set_postal_code(body['postalcode'])
+            user.set_date_registered(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+            user.set_address(body['address'])
+            user.set_notes([])
+            user.set_tokens([])
+            # Generate Password 
+            password = generate_password()
+            # Assign Password
+            user.UserPassword=hashlib.sha256(str(password).encode('utf-8')).hexdigest()
+            print("IAM 2")
+            # Send Password via a mail
+            
+            # Create General Privilege Object,Save,GetID
+            ministry_list=Ministry.objects.filter(ministry_name=body['ministry_name'])
+            ministry_ref=-1
+            if ministry_list.count()<1:
+                ministry=Ministry()
+                ministry.set_ministry_name(body['ministry_name'])
+                ministry.save()
+                ministry_ref=ministry.pk
+            else:
+                ministry_ref=ministry_list.first().pk
+                
+            
+            auth_privilege=AuthPrivilage()
+            auth_privilege.set_feed_posts([])
+            auth_privilege.set_position(body['position'])
+            auth_privilege.set_ministry_refrence(ministry_ref)
+            auth_privilege.save()
+            # Set Object ID to User
+            user.set_is_auhtorized(True)
+            user.set_privilage(auth_privilege.pk)
+            # Save user to MongoDB
+            send_password_to(user,password)
+            user.save()
+            print("IAM 3")
+            # Registered Success !
+            return JsonResponse({'content':"Successfully Registered"},status=status.HTTP_200_OK)
+ 
+    except Exception as e:
+        # Unexpected Exception Occurred
+        return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+    
+    
+     
+     

@@ -7,22 +7,22 @@ class Token(models.Model):
     generated_time=models.DateTimeField()
     isvalid=models.BooleanField()
     def get_value(self):
-        return self.__value
+        return self.value
 
     def get_generated_time(self):
-        return self.__generated_time
+        return self.generated_time
 
     def get_isvalid(self):
-        return self.__isvalid
+        return self.isvalid
 
     def set_value(self, value):
-        self.__value = value
+        self.value = value
 
     def set_generated_time(self, value):
-        self.__generated_time = value
+        self.generated_time = value
 
     def set_isvalid(self, value):
-        self.__isvalid = value
+        self.isvalid = value
    
     class Meta:
         abstract = True

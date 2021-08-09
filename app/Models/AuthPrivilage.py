@@ -11,19 +11,19 @@ class AuthPrivilage(models.Model):
     )
 
     def get_ministry_refrence(self):
-        return self.__ministry_refrence
+        return self.ministry_refrence
 
     def get_position(self):
-        return self.__position
+        return self.position
 
     def get_feed_posts(self):
-        return self.__FeedPosts
+        return self.FeedPosts
 
     def set_ministry_refrence(self, value):
-        self.__ministry_refrence = value
+        self.ministry_refrence = value
 
     def set_position(self, value):
-        self.__position = value
+        self.position = value
 
     def set_feed_posts(self, value):
-        self.__FeedPosts = value
+        self.FeedPosts = value

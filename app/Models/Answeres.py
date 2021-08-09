@@ -8,22 +8,22 @@ class Answeres(models.Model):
     AuthorsID=models.CharField(max_length=500)
     
     def get_answere(self):
-        return self.__Answere
+        return self.Answere
 
     def get_date_posted(self):
-        return self.__DatePosted
+        return self.DatePosted
 
     def get_authors_id(self):
-        return self.__AuthorsID
+        return self.AuthorsID
 
     def set_answere(self, value):
-        self.__Answere = value
+        self.Answere = value
 
     def set_date_posted(self, value):
-        self.__DatePosted = value
+        self.DatePosted = value
 
     def set_authors_id(self, value):
-        self.__AuthorsID = value
+        self.AuthorsID = value
       
     class Meta:
         abstract=True
