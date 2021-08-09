@@ -15,6 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SECRET_CODE=212434
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -37,9 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'corsheaders',
+    'app.apps.AuthAppConfig'
 ]
 
+CORS_ORIGIN_ALLOW_ALL=True
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -65,7 +72,7 @@ TEMPLATES = [
             ],
         },
     },
-]
+] 
 
 WSGI_APPLICATION = 'back_end_rest_api.wsgi.application'
 
@@ -73,11 +80,18 @@ WSGI_APPLICATION = 'back_end_rest_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+DATABASES={
+     'default':{
+    'ENGINE': 'djongo',
+    'NAME': 'back_rest_api',
+    'CLIENT': {
+        'host':'mongodb+srv://greenbaypid3:supirikollo3@cluster0.w7tcg.mongodb.net/back_rest_api?retryWrites=true&w=majority',
+       'port': 27017,
+       'username': 'greenbaypid3',
+       'password': 'supirikollo3'
     }
+  }
+
 }
 
 
@@ -123,3 +137,13 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+#DataFlair
+EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'greenbaypid3@gmail.com'
+EMAIL_HOST_PASSWORD = 'supirikollo@3'
