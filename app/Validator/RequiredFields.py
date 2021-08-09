@@ -6,3 +6,5 @@ LOGIN_FIELDS=['email','password']
 LOGOUT_FIELDS=['email']
 FORGET_PASSWORD_FIELDS=['email']
 
+#FEED
+ADD_POST=['email','image_url','title','description']
