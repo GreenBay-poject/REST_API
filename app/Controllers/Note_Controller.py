@@ -49,12 +49,12 @@ def add_note(request):
         return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-'''
+
 @csrf_exempt
 @api_view(['POST'])
-@require_validation(VIEW_MY_POSTS)
-@role_required(ALLOWS_MINISTRY_USERS_ONLY)
-def view_my_posts(request):
+@require_validation(VIEW_MY_NOTES)
+@role_required(ALLOWS_REGULAR_AND_MINISTRY_USERS)
+def view_my_notes(request):
     try:
         # Convert request to Python Dictionary 
         body=json.loads(request.body)
@@ -62,25 +62,23 @@ def view_my_posts(request):
         user_list=Users.objects.filter(UserEmail=body['email']);
         # Get the user object
         user=user_list.first()
-        # get privilege id
-        privilege_id=user.get_privilage()
-        # Get Privilege Object
-        privilege=AuthPrivilage.objects.filter(id=privilege_id).first();
-        # Get Posts list
-        post_list=privilege.get_feed_posts()
-        # Send response
-        return JsonResponse({'All Posts By The user':post_list},status=status.HTTP_200_OK)
+        # Get Note List
+        note_list=user.get_notes()
+        # Return All Notes
+        return JsonResponse({'All Notes By The user':note_list},status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
         return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+
+
 @csrf_exempt
 @api_view(['POST'])
-@require_validation(DELETE_MY_POSTS)
-@role_required(ALLOWS_MINISTRY_USERS_ONLY)
-def delete_post(request):
+@require_validation(DELETE_MY_NOTE)
+@role_required(ALLOWS_REGULAR_AND_MINISTRY_USERS)
+def delete_note(request):
     try:
         # Convert request to Python Dictionary 
         body=json.loads(request.body)
@@ -88,34 +86,27 @@ def delete_post(request):
         user_list=Users.objects.filter(UserEmail=body['email']);
         # Get the user object
         user=user_list.first()
-        # get privilege id
-        privilege_id=user.get_privilage()
-        # Get Privilege Object
-        privilege=AuthPrivilage.objects.filter(id=privilege_id).first();
-        # Get Posts list
-        post_list=privilege.get_feed_posts()
-        print(post_list)
-        # Delete Post From List
-        index=body['post_index']
-        removed_post=post_list.pop(index)
-        print(post_list)
-        # Update post list
-        privilege.set_feed_posts(post_list)
-        print("A")
-        # Save privilege list
-        privilege.save()
-        # Send response
-        return JsonResponse({'Deleted Post':removed_post,'All Posts By The user':privilege.get_feed_posts()},status=status.HTTP_200_OK)
+        # Get Note List
+        note_list=user.get_notes()
+        # Delete Note From List
+        deleted_note=note_list.pop(body['note_index'])
+        # Set Note List
+        user.set_notes(note_list)
+        # Save User
+        user.save()
+        # Return All Notes
+        return JsonResponse({'Deleted Note':deleted_note,'All Notes By The user':user.get_notes()},status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
         return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 @csrf_exempt
 @api_view(['GET'])
-@require_validation(VIEW_ALL_POSTS)
+@require_validation(VIEW_PUBLIC_NOTES)
 @role_required(ALLOWS_ALL)
-def view_posts(request):
+def view_public_notes(request):
     try:
         print("A")
         # Get users list
@@ -127,6 +118,7 @@ def view_posts(request):
         response=[]
         # iterate through user list
         for user in user_list:
+            # A filter for public notes
             if not user.get_is_auhtorized():
                 continue
             user_data={}
@@ -136,10 +128,10 @@ def view_posts(request):
             privilege_id=user.get_privilage()
             # Get Privilege Object
             privilege=AuthPrivilage.objects.filter(id=privilege_id).first();
-            # Get Posts list
-            post_list=privilege.get_feed_posts()
-            # set post list
-            user_data['posts']=post_list
+            # Get Notes list
+            note_list=user.get_notes()
+            # set note list
+            user_data['notes']=note_list
             # get ministry id
             ministry_id=privilege.get_ministry_refrence()
             # get ministry name
@@ -150,12 +142,9 @@ def view_posts(request):
             response.append(user_data)
         
         # Send response
-        return JsonResponse({'ALL POSTS':response},status=status.HTTP_200_OK)
+        return JsonResponse({'ALL NOTES':response},status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
         return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-
-'''
