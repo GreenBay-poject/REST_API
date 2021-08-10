@@ -11,3 +11,6 @@ ADD_POST=['email','image_url','title','description']
 VIEW_MY_POSTS=['email']
 DELETE_MY_POSTS=['email','post_index']
 VIEW_ALL_POSTS=[]
+
+#NOTE
+ADD_NOTE=['email','lat','lon','text']
