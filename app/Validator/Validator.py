@@ -7,7 +7,11 @@ def require_validation(field_list):
     def decorator(view_func):
         def wrap(request, *args, **kwargs):
             #Read Body
-            body=json.loads(request.body)
+            body={}
+            if request.method=='POST':
+                body=json.loads(request.body)
+            if request.method=='GET':
+                body=request.query_params
             valid=True # Consider as Valid
             # Iterate and Check For Existence
             for field in field_list:
