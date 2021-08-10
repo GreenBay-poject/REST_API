@@ -81,3 +81,75 @@ def view_my_posts(request):
         return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+@csrf_exempt
+@api_view(['POST'])
+@require_validation(DELETE_MY_POSTS)
+@role_required(ALLOWS_MINISTRY_USERS_ONLY)
+def delete_post(request):
+    try:
+        # Convert request to Python Dictionary 
+        body=json.loads(request.body)
+        # Get users list
+        user_list=Users.objects.filter(UserEmail=body['email']);
+        # Get the user object
+        user=user_list.first()
+        # get privilege id
+        privilege_id=user.get_privilage()
+        # Get Privilege Object
+        privilege=AuthPrivilage.objects.filter(id=privilege_id).first();
+        # Get Posts list
+        post_list=privilege.get_feed_posts()
+        print(post_list)
+        # Delete Post From List
+        index=body['post_index']
+        removed_post=post_list.pop(index)
+        print(post_list)
+        # Update post list
+        privilege.set_feed_posts(post_list)
+        print("A")
+        # Save privilege list
+        privilege.save()
+        # Send response
+        return JsonResponse({'Deleted Post':removed_post,'All Posts By The user':privilege.get_feed_posts()},status=status.HTTP_200_OK)
+     
+    except Exception as e:
+        # Unexpected Exception Occurred
+        return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@csrf_exempt
+@api_view(['GET'])
+@require_validation(VIEW_ALL_POSTS)
+@role_required(ALLOWS_ALL)
+def view_posts(request):
+    try:
+        # Convert request to Python Dictionary 
+        body=json.loads(request.body)
+        # Get users list
+        user_list=Users.objects.filter(UserEmail=body['email']);
+        # Get the user object
+        user=user_list.first()
+        # get privilege id
+        privilege_id=user.get_privilage()
+        # Get Privilege Object
+        privilege=AuthPrivilage.objects.filter(id=privilege_id).first();
+        # Get Posts list
+        post_list=privilege.get_feed_posts()
+        print(post_list)
+        # Delete Post From List
+        index=body['post_index']
+        removed_post=post_list.pop(index)
+        print(post_list)
+        # Update post list
+        privilege.set_feed_posts(post_list)
+        print("A")
+        # Save privilege list
+        privilege.save()
+        # Send response
+        return JsonResponse({'Deleted Post':removed_post,'All Posts By The user':privilege.get_feed_posts()},status=status.HTTP_200_OK)
+     
+    except Exception as e:
+        # Unexpected Exception Occurred
+        return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
