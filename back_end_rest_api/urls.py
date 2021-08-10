@@ -19,4 +19,5 @@ from django.conf.urls import url, include
 urlpatterns = [
     url('^auth/', include('app.EndpointUrls.Auth_urls')),
     url('^feed/', include('app.EndpointUrls.Feed_urls')),
+    url('^note/', include('app.EndpointUrls.Note_urls')),
 ]
