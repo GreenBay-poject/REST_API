@@ -122,30 +122,40 @@ def delete_post(request):
 @role_required(ALLOWS_ALL)
 def view_posts(request):
     try:
-        # Convert request to Python Dictionary 
-        body=json.loads(request.body)
-        # Get users list
-        user_list=Users.objects.filter(UserEmail=body['email']);
-        # Get the user object
-        user=user_list.first()
-        # get privilege id
-        privilege_id=user.get_privilage()
-        # Get Privilege Object
-        privilege=AuthPrivilage.objects.filter(id=privilege_id).first();
-        # Get Posts list
-        post_list=privilege.get_feed_posts()
-        print(post_list)
-        # Delete Post From List
-        index=body['post_index']
-        removed_post=post_list.pop(index)
-        print(post_list)
-        # Update post list
-        privilege.set_feed_posts(post_list)
         print("A")
-        # Save privilege list
-        privilege.save()
+        # Get users list
+        user_list=Users.objects.all();
+        # response
+        print("A")
+        print(len(user_list))
+        print("B")
+        response=[]
+        # iterate through user list
+        for user in user_list:
+            if not user.get_is_auhtorized():
+                continue
+            user_data={}
+            # set email
+            user_data['email']=user.get_user_email()
+            # get privilege id
+            privilege_id=user.get_privilage()
+            # Get Privilege Object
+            privilege=AuthPrivilage.objects.filter(id=privilege_id).first();
+            # Get Posts list
+            post_list=privilege.get_feed_posts()
+            # set post list
+            user_data['posts']=post_list
+            # get ministry id
+            ministry_id=privilege.get_ministry_refrence()
+            # get ministry name
+            ministry_name=Ministry.objects.filter(id=ministry_id).first().get_ministry_name()
+            # set ministry name
+            user_data['ministry_name']=ministry_name
+            # Add data to response
+            response.append(user_data)
+        
         # Send response
-        return JsonResponse({'Deleted Post':removed_post,'All Posts By The user':privilege.get_feed_posts()},status=status.HTTP_200_OK)
+        return JsonResponse({'ALL POSTS':response},status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
