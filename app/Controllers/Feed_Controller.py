@@ -36,17 +36,45 @@ def add_post(request):
         # Get Posts list
         post_list=privilege.get_feed_posts()
         # Add a post to post_list
-        post_list.add({'Title':body['title'],
+        post_dictionary={'Title':body['title'],
                        'Image':body['image_url'],
                        'Description':body['description'],
-                       'DatePosted':datetime.datetime.now().timestamp(),                    
-                       })
+                       'DatePosted':datetime.now(),                    
+                       }
+        post_list.append(post_dictionary)
+        print(post_list)
         # Update post list
         privilege.set_feed_posts(post_list)
+        print("A")
         # Save privilege list
         privilege.save()
         # Send response
-        return JsonResponse({'All Posts':privilege.get_feed_posts()},status=status.HTTP_200_OK)
+        return JsonResponse({'All Posts By The user':privilege.get_feed_posts()},status=status.HTTP_200_OK)
+     
+    except Exception as e:
+        # Unexpected Exception Occurred
+        return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@csrf_exempt
+@api_view(['POST'])
+@require_validation(VIEW_MY_POSTS)
+@role_required(ALLOWS_MINISTRY_USERS_ONLY)
+def view_my_posts(request):
+    try:
+        # Convert request to Python Dictionary 
+        body=json.loads(request.body)
+        # Get users list
+        user_list=Users.objects.filter(UserEmail=body['email']);
+        # Get the user object
+        user=user_list.first()
+        # get privilege id
+        privilege_id=user.get_privilage()
+        # Get Privilege Object
+        privilege=AuthPrivilage.objects.filter(id=privilege_id).first();
+        # Get Posts list
+        post_list=privilege.get_feed_posts()
+        # Send response
+        return JsonResponse({'All Posts By The user':post_list},status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
