@@ -6,3 +6,15 @@ urlpatterns = [
     url(r'^delete_note$', Note_Controller.delete_note),
     url(r'^get_public_note$', Note_Controller.view_public_notes),
 ]
+'''
+(x|xy)*b(a|b)*
+xxb
+xyb
+xbb
+xba
+baa
+bab
+bba
+bbb
+
+'''
