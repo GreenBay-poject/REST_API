@@ -5,6 +5,7 @@ REGISTER_AUTH_FIELDS=['name','email','age','gender','address','postalcode','mini
 LOGIN_FIELDS=['email','password']
 LOGOUT_FIELDS=['email']
 FORGET_PASSWORD_FIELDS=['email']
+GET_USER_FIELDS=['email']
 
 #FEED
 ADD_POST=['email','image_url','title','description']
