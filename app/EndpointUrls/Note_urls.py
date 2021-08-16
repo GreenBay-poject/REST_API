@@ -6,3 +6,4 @@ urlpatterns = [
     url(r'^delete_note$', Note_Controller.delete_note),
     url(r'^get_public_note$', Note_Controller.view_public_notes),
 ]
+# Push
