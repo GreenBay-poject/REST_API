@@ -46,12 +46,14 @@ def role_required(allowed_roles):
 
 def token_valid(request):
     body=json.loads(request.body)
+    token=request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
     
+    print("0"+token)
     #email field
     if('email' not in body.keys()):
         return 'Please Provide email Field'
     #token field
-    if('Token' not in body.keys()):
+    if(token==""):
         return 'Please Provide Token Field'
     #email registered
     user_list=Users.objects.filter(UserEmail=body['email']);
@@ -61,7 +63,6 @@ def token_valid(request):
     
     # token valid
     user=user_list.first()
-    token=body['Token']
     token_found=False
     for token_dict in user.Tokens:
         if token_dict['value']==token:
@@ -76,12 +77,13 @@ def token_valid(request):
 
 def authorized_token_valid(request):
     body=json.loads(request.body)
-    
+    token=request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+    print("1"+token)
     #email field
     if('email' not in body.keys()):
         return 'Please Provide email Field'
     #token field
-    if('Token' not in body.keys()):
+    if(token==""):
         return 'Please Provide Token Field'
     #email registered
     user_list=Users.objects.filter(UserEmail=body['email']);
@@ -91,7 +93,6 @@ def authorized_token_valid(request):
     
     # token valid
     user=user_list.first()
-    token=body['Token']
     token_found=False
     for token_dict in user.Tokens:
         if token_dict['value']==token:
@@ -107,12 +108,13 @@ def authorized_token_valid(request):
 
 def general_token_valid(request):
     body=json.loads(request.body)
-    
+    token=request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
+    print("2"+token)
     #email field
     if('email' not in body.keys()):
         return 'Please Provide email Field'
     #token field
-    if('Token' not in body.keys()):
+    if(token==""):
         return 'Please Provide Token Field'
     #email registered
     user_list=Users.objects.filter(UserEmail=body['email']);
@@ -122,7 +124,6 @@ def general_token_valid(request):
     
     # token valid
     user=user_list.first()
-    token=body['Token']
     token_found=False
     for token_dict in user.Tokens:
         if token_dict['value']==token:
