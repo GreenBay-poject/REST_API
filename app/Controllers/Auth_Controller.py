@@ -137,7 +137,7 @@ def logout(request):
         print(str(user_list))
         # get user object and token value
         user=user_list.first()
-        token=body['Token']
+        token=request.META.get('HTTP_AUTHORIZATION', " ").split(' ')[1]
         print(token)
         # get token object of the value
         token_found=False

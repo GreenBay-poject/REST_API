@@ -16,6 +16,7 @@ from app.Models.GeneralPrivilage import GeneralPrivilage
 from back_end_rest_api.settings import SECRET_CODE
 from app.Models.AuthPrivilage import AuthPrivilage
 from app.Models.Ministry import Ministry
+from time import time
 
 @csrf_exempt
 @api_view(['POST'])
@@ -31,16 +32,15 @@ def add_post(request):
         user=user_list.first()
         # get privilege id
         privilege_id=user.get_privilage()
+        print("::")
         # Get Privilege Object
         privilege=AuthPrivilage.objects.filter(id=privilege_id).first();
         # Get Posts list
         post_list=privilege.get_feed_posts()
         # Add a post to post_list
-        post_dictionary={'Title':body['title'],
-                       'Image':body['image_url'],
-                       'Description':body['description'],
-                       'DatePosted':datetime.now(),                    
-                       }
+        print("::")
+        post_dictionary={'post_id':int(time()*1000),'Title':body['title'],'Image':body['image_url'],'Description':body['description'],'DatePosted':datetime.now()}
+        print("::")
         post_list.append(post_dictionary)
         print(post_list)
         # Update post list
@@ -101,8 +101,12 @@ def delete_post(request):
         post_list=privilege.get_feed_posts()
         print(post_list)
         # Delete Post From List
-        index=body['post_index']
-        removed_post=post_list.pop(index)
+        removed_post=None
+        for post in post_list:
+            i=0
+            if post['post_id']==body['post_id']:
+                removed_post=post_list.pop(i)
+            i=i+1
         print(post_list)
         # Update post list
         privilege.set_feed_posts(post_list)
