@@ -2,11 +2,19 @@ from djongo import models
 from django.forms import ModelForm
 
 class Posts(models.Model):
-    
+
+    post_id=models.IntegerField()
     Title=models.CharField(max_length=200)
     Image=models.CharField(max_length=1000)
     Description=models.CharField(max_length=200)
     DatePosted=models.DateTimeField()
+    
+    def get_post_id(self):
+        return self.post_id
+
+
+    def set_post_id(self, value):
+        self.post_id = value
 
     def get_title(self):
         return self.Title
@@ -34,11 +42,11 @@ class Posts(models.Model):
     
     class Meta:
         abstract = True
-
+    
 class PostsForm(ModelForm):
 
     class Meta:
         model = Posts
         fields = (
-            'Title','Image','Description','DatePosted'
+           'post_id','Title','Image','Description','DatePosted'
         )
