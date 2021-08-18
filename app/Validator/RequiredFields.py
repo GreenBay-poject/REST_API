@@ -10,11 +10,11 @@ GET_USER_FIELDS=['email']
 #FEED
 ADD_POST=['email','image_url','title','description']
 VIEW_MY_POSTS=['email']
-DELETE_MY_POSTS=['email','post_index']
+DELETE_MY_POSTS=['email','post_id']
 VIEW_ALL_POSTS=[]
 
 #NOTE
 ADD_NOTE=['email','lat','lon','text']
 VIEW_MY_NOTES=['email']
-DELETE_MY_NOTE=['email','note_index']
+DELETE_MY_NOTE=['email','note_id']
 VIEW_PUBLIC_NOTES=[]

@@ -2,6 +2,7 @@ from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
 from rest_framework import status
 import json
+from time import time
 from app.Models.Users import Users
 from datetime import datetime
 import hashlib
@@ -33,6 +34,7 @@ def add_note(request):
         note_list=user.get_notes()
         # Add Note To List
         note_list.append({
+            "note_id":int(time()*1000),
             "lat":body['lat'],
             "lon":body['lon'],
             "text":body['text']
@@ -89,7 +91,13 @@ def delete_note(request):
         # Get Note List
         note_list=user.get_notes()
         # Delete Note From List
-        deleted_note=note_list.pop(body['note_index'])
+        deleted_note=None
+        for note in note_list:
+            i=0
+            if note['note_id']==body['note_id']:
+                deleted_note=note_list.pop(i)
+            i=i+1
+        
         # Set Note List
         user.set_notes(note_list)
         # Save User
