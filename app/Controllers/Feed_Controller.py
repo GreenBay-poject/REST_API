@@ -77,7 +77,7 @@ def add_post(request):
                     mail_chunk=[]
             mailObserver=Mail_Observer(mail_chunk)
             postObservable.attach(mailObserver)
-            
+            # Notifiy Mail Observer
             postObservable.notify(post_dictionary)
             
            
