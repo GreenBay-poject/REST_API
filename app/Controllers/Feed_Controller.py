@@ -48,6 +48,10 @@ def add_post(request):
         print("A")
         # Save privilege list
         privilege.save()
+        # Notify users when add posts
+        try:
+            user.notifyall(post_dictionary)
+        
         # Send response
         return JsonResponse({'All Posts By The user':privilege.get_feed_posts()},status=status.HTTP_200_OK)
      
