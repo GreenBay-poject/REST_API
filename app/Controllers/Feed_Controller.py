@@ -17,6 +17,9 @@ from back_end_rest_api.settings import SECRET_CODE
 from app.Models.AuthPrivilage import AuthPrivilage
 from app.Models.Ministry import Ministry
 from time import time
+from app.Observers.Mail_Observers.Mail_Observer import Mail_Observer
+from pkg_resources.py2_warn import pre
+from app.Observers.Posts_observable.Post_Observable import Post_Observable
 
 @csrf_exempt
 @api_view(['POST'])
@@ -48,6 +51,38 @@ def add_post(request):
         print("A")
         # Save privilege list
         privilege.save()
+        # Notify users when add posts
+        try:
+            # Get all user mails
+            fetched_mail=list(Users.objects.values('UserEmail'))
+            prepared_mail=[]
+            for mail_dict in fetched_mail:
+                prepared_mail.append(mail_dict['UserEmail'])
+            print(prepared_mail)
+            
+            
+            
+            # Create Observer         
+            postObservable=Post_Observable()
+            
+            # Divide mail into chunks
+            mail_chunk=[]
+            # Iterate over mails
+            for mail in prepared_mail:
+                mail_chunk.append(mail)
+                # If mails >=50 add and start new chunk
+                if len(mail_chunk)>=50:
+                    mailObserver=Mail_Observer(mail_chunk)
+                    postObservable.attach(mailObserver)
+                    mail_chunk=[]
+            mailObserver=Mail_Observer(mail_chunk)
+            postObservable.attach(mailObserver)
+            # Notifiy Mail Observer
+            postObservable.notify(post_dictionary)
+            
+           
+        except:
+            pass
         # Send response
         return JsonResponse({'All Posts By The user':privilege.get_feed_posts()},status=status.HTTP_200_OK)
      
@@ -157,7 +192,7 @@ def view_posts(request):
             user_data['ministry_name']=ministry_name
             # Add data to response
             response.append(user_data)
-        
+            
         # Send response
         return JsonResponse({'ALL POSTS':response},status=status.HTTP_200_OK)
      
