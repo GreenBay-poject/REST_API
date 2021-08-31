@@ -18,7 +18,6 @@ from app.Models.AuthPrivilage import AuthPrivilage
 from app.Models.Ministry import Ministry
 from time import time
 from app.Observers.Mail_Observers.Mail_Observer import Mail_Observer
-from pkg_resources.py2_warn import pre
 from app.Observers.Posts_observable.Post_Observable import Post_Observable
 
 @csrf_exempt
