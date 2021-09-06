@@ -1,11 +1,15 @@
 import ee
 from back_end_rest_api.settings import SERVICE_ACCOUNT_GEE
+import os
 
 
 class APIManager:
     
     def initialize(self):
-        credentials = ee.ServiceAccountCredentials(SERVICE_ACCOUNT_GEE, 'privatekey.json')
+        path=os.path.join(os.path.dirname(os.path.realpath(__file__)), 'privatekey.json')
+        
+        print(path)
+        credentials = ee.ServiceAccountCredentials(SERVICE_ACCOUNT_GEE, path)
         ee.Initialize(credentials)
     
     def get_available_dates(self,lattitude,longitude):
@@ -18,4 +22,6 @@ class APIManager:
         date_list=landsat_AOI.aggregate_array('system:time_start').getInfo()
         print(date_list)
         return date_list
+    
+    def fetch_image(self, lattitude, longitude, date):
         
