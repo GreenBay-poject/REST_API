@@ -9,7 +9,6 @@ class Note(models.Model):
     lon=models.FloatField()
     text=models.CharField(max_length=200)
     
-    
     def get_note_id(self):
         return self.note_id
 
