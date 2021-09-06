@@ -59,10 +59,12 @@ def get_image(request):
         gee_api_manager.initialize()
         
         # Get Image
-        url=gee_api_manager.fetch_image(lattitude, longitude, date)
+        image=gee_api_manager.fetch_image(lattitude, longitude, date)
+        # Convert Image To Json
+        image_json=image.tojson()
         
         # Return Image Urls
-        return JsonResponse({'Url':url},status=status.HTTP_200_OK)
+        return JsonResponse({'Image':image_json},status=status.HTTP_200_OK)
      
     except Exception as e:
         
