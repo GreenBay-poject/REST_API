@@ -22,3 +22,4 @@ VIEW_PUBLIC_NOTES=[]
 #REPORT GENERATOR
 GET_DATES=['lattitude','longitude']
 GET_IMAGE=['lattitude','longitude','date']
+GENERATE_LAND_REPORT=['url']
