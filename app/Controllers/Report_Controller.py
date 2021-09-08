@@ -11,6 +11,8 @@ from app.Validator.RequiredFields import GET_DATES, GET_IMAGE,\
 from app.AccessController.Roles import ALLOWS_ALL
 from app.GoogleEE.APIManager import APIManager
 from datetime import datetime as dt
+from app.Report_Factory.ReportFactory import ReportFactory
+from app.Report_Factory.FacoryValues import LAND_REPORT
 
 @csrf_exempt
 @api_view(['GET'])
@@ -83,18 +85,14 @@ def generate_land_report(request):
         body=json.loads(request.body)
         # Process Data
         url=body['url']
-        
-        # Initialize Earth Engine
-        gee_api_manager=APIManager()
-        gee_api_manager.initialize()
-        
-        # Get Image
-        image=gee_api_manager.fetch_image(lattitude, longitude, date)
-        # Convert Image To Json
-        image_json=image.tojson()
-        
+        # Generate Land Report Object
+        reportObject=ReportFactory().create_report(LAND_REPORT)
+        # set url to report
+        reportObject.set_urls([url])
+        # Generated Report
+        report=reportObject.generate_report()
         # Return Report
-        return JsonResponse({'Image':image_json},status=status.HTTP_200_OK)
+        return JsonResponse({'Report':report},status=status.HTTP_200_OK)
      
     except Exception as e:
         
