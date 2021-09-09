@@ -44,7 +44,7 @@ def add_note(request):
         # Save User
         user.save()
         # Return All Notes
-        return JsonResponse({'All Notes By The user':user.get_notes()},status=status.HTTP_200_OK)
+        return JsonResponse({'All_Notes_user':user.get_notes()},status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
@@ -67,7 +67,7 @@ def view_my_notes(request):
         # Get Note List
         note_list=user.get_notes()
         # Return All Notes
-        return JsonResponse({'All Notes By The user':note_list},status=status.HTTP_200_OK)
+        return JsonResponse({'All_Notes_user':note_list},status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
@@ -103,7 +103,7 @@ def delete_note(request):
         # Save User
         user.save()
         # Return All Notes
-        return JsonResponse({'Deleted Note':deleted_note,'All Notes By The user':user.get_notes()},status=status.HTTP_200_OK)
+        return JsonResponse({'Deleted_Note':deleted_note,'All Notes By The user':user.get_notes()},status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
@@ -150,7 +150,7 @@ def view_public_notes(request):
             response.append(user_data)
         
         # Send response
-        return JsonResponse({'ALL NOTES':response},status=status.HTTP_200_OK)
+        return JsonResponse({'ALL_NOTES':response},status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
