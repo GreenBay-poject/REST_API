@@ -92,10 +92,9 @@ def generate_land_report(request):
         reportObject.set_urls([url])
         # Generated Report
         report=reportObject.generate_report()
-        print(report[0])
-        print(report[1])
+        print(report)
         # Return Report
-        return JsonResponse({'Probabilities':str(report[0]),'tags':str(report[1])},status=status.HTTP_200_OK)
+        return JsonResponse({'Report':report},status=status.HTTP_200_OK)
      
     except Exception as e:
         

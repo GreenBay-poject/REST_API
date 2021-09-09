@@ -38,13 +38,7 @@ class MLModel:
         return tags
     
     # load and prepare the image
-    def load_image(self,filename):
-        # load the image
-        response = requests.get(filename)
-        # Read content
-        img_bytes = BytesIO(response.content)
-        # Open Image
-        img = Image.open(img_bytes)
+    def load_image(self,img):
         # Convert Image to RGB
         img = img.convert('RGB')
         # Resize image
@@ -60,9 +54,9 @@ class MLModel:
         return img
 
     # load an image and predict the class
-    def run_model(self,inv_mapping,url):
+    def run_model(self,inv_mapping,img):
         # load the image
-        img = self.load_image(url)
+        img = self.load_image(img)
         # Path to model
         model_path=os.path.join(os.path.dirname(os.path.realpath(__file__)), 'final_model.h5')
         # load model
@@ -72,9 +66,9 @@ class MLModel:
         # map prediction to tags
         tags = self.prediction_to_tags(inv_mapping, result[0])
         # return result
-        return [result[0],tags]
+        return tags
 
-    def get_prediction(self,url):
+    def get_prediction(self,img):
         # load the mapping file 
         filename =os.path.join(os.path.dirname(os.path.realpath(__file__)), 'train.csv')
         # Read CSV
@@ -82,7 +76,7 @@ class MLModel:
         # create a mapping of tags to integers
         _, inv_mapping = self.create_tag_mapping(mapping_csv)
         # entry point, run the example
-        return self.run_model(inv_mapping,url)
+        return self.run_model(inv_mapping,img)
         
         
         
