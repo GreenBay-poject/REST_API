@@ -6,6 +6,10 @@ class Report(ABC):
     
     def __init__(self,mlmodel):
         self.mlmodel=mlmodel
+    
+    def getModel(self):
+        print(self.mlmodel.printMe())
+        return self.mlmodel
         
     @abstractmethod
     def set_urls(self, urls_array):

@@ -85,14 +85,17 @@ def generate_land_report(request):
         body=json.loads(request.body)
         # Process Data
         url=body['url']
+        print(url)
         # Generate Land Report Object
         reportObject=ReportFactory().create_report(LAND_REPORT)
         # set url to report
         reportObject.set_urls([url])
         # Generated Report
         report=reportObject.generate_report()
+        print(report[0])
+        print(report[1])
         # Return Report
-        return JsonResponse({'Report':report},status=status.HTTP_200_OK)
+        return JsonResponse({'Probabilities':str(report[0]),'tags':str(report[1])},status=status.HTTP_200_OK)
      
     except Exception as e:
         

@@ -14,5 +14,5 @@ class LandReport(Report):
     
     def generate_report(self):
         print("I am Generating Land Report")
-        return "OK"
+        return super().getModel().get_prediction(self.url)
         
