@@ -150,7 +150,7 @@ def view_public_notes(request):
             response.append(user_data)
         
         # Send response
-        return JsonResponse({'ALL NOTES':response},status=status.HTTP_200_OK)
+        return JsonResponse({'ALL_NOTES':response},status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
