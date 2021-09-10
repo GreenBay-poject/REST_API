@@ -18,3 +18,8 @@ ADD_NOTE=['email','lat','lon','text']
 VIEW_MY_NOTES=['email']
 DELETE_MY_NOTE=['email','note_id']
 VIEW_PUBLIC_NOTES=[]
+
+#REPORT GENERATOR
+GET_DATES=['lattitude','longitude']
+GET_IMAGE=['lattitude','longitude','date']
+GENERATE_LAND_REPORT=['url']

@@ -20,4 +20,5 @@ urlpatterns = [
     url('^auth/', include('app.EndpointUrls.Auth_urls')),
     url('^feed/', include('app.EndpointUrls.Feed_urls')),
     url('^note/', include('app.EndpointUrls.Note_urls')),
+    url('^report/', include('app.EndpointUrls.Report_urls')),
 ]

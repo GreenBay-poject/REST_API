@@ -23,6 +23,10 @@ SECRET_CODE=212434
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-dgvbbocd2h#=e)33eslt!v_g&+5_kvjpsttve8j-2_h$veqfgj'
 
+# SERVICE ACCOUNT
+SERVICE_ACCOUNT_GEE = "greenbay@greenbay-320314.iam.gserviceaccount.com"
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
