@@ -23,3 +23,9 @@ VIEW_PUBLIC_NOTES=[]
 GET_DATES=['lattitude','longitude']
 GET_IMAGE=['lattitude','longitude','date']
 GENERATE_LAND_REPORT=['url']
+
+#NOTE
+ADD_QUESTIONS=['email','title','queston']
+VIEW_QUESTIONS=['email']
+DELETE_QUESTIONS=['email','question_id']
+ANSWER_QUESTIONS=['email','question_id','answer']

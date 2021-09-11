@@ -21,4 +21,5 @@ urlpatterns = [
     url('^feed/', include('app.EndpointUrls.Feed_urls')),
     url('^note/', include('app.EndpointUrls.Note_urls')),
     url('^report/', include('app.EndpointUrls.Report_urls')),
+    url('^questions/', include('app.EndpointUrls.Questions_url')),
 ]

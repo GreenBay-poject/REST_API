@@ -6,8 +6,7 @@ djongo==1.3.6
 dnspython==2.1.0
 pymongo==3.12.0
 sqlparse==0.2.4
-earthengine-api==0.1.280
-pandas==1.3.2
+earthengine-api
+pandas
 Pillow==7.0.0
-tensorflow==2.6.0
 keras==2.6.0
