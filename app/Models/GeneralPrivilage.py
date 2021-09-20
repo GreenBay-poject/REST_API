@@ -1,7 +1,7 @@
 from djongo import models
 from app.Models.Questions import Questions
 
-class GeneralPrivilage(models.Model):
+class  GeneralPrivilage(models.Model):
         
     QuestionList=models.ArrayReferenceField(
         to=Questions,
