@@ -3,7 +3,7 @@ from app.Models.Questions import Questions
 
 class  GeneralPrivilage(models.Model):
         
-    QuestionList=models.ArrayReferenceField(
+    QuestionList=models.CharField(
         to=Questions,
         on_delete=models.CASCADE,
     )
