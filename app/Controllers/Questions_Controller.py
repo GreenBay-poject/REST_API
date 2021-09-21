@@ -27,7 +27,7 @@ from app.Models.Questions import Questions
 @csrf_exempt
 @api_view(['POST'])
 @require_validation(ADD_QUESTIONS)
-@role_required(ALLOWS_REGULAR_AND_MINISTRY_USERS)
+@role_required(ALLOWS_GENERAL_USERS_ONLY)
 def add_questions(request):
     try:
         # Convert request to Python Dictionary 
@@ -42,32 +42,32 @@ def add_questions(request):
         privilege = GeneralPrivilage.objects.filter(id=privilege_id).first();
         # Get Posts list
         question_list = privilege.get_question_list()
-        print(question_list.count())
-        question_ref = -1
-        if question_list.count() < 1:
-            question = Questions()
-            question.set_title(body['title'])
-            question.set_question(body['question'])
-            question.set_date_posted(datetime.now())
-            question.save()
-            question_ref = question.pk
-            print(question.get_title())
-            print(question.pk)
-        else:
-            question_ref = question_list.first().pk
-        print(question_ref)
+        print('***********************')
         print(question_list)
-        question_list=[]
+        # if question_list.count() < 1:
+        question = Questions()
+        question.set_title(body['title'])
+        question.set_question(body['question'])
+        question.set_date_posted(datetime.now())
+        question.save()
+        question_ref = question.pk
+        print(question.get_title())
+        print(question.pk)
+        # else:
+        #     question_ref = question_list.first().pk
+        # print(question_ref)
+        # print(question_list)
+        # question_list=[]
         question_list.append(question_ref)
         print(question_list)
         privilege.set_question_list(question_list)
-        print("A")
-        print(privilege.get_question_list)
-        # Save privilege list
+        # print("A")
+        # print(privilege.get_question_list)
+        # # Save privilege list
         privilege.save()
-        # Notify users when add posts
+        # # Notify users when add posts
 
-        return JsonResponse({'All Questions By The user':[]}, status=status.HTTP_200_OK)
+        return JsonResponse({'All Questions By The user':privilege.get_question_list()}, status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred

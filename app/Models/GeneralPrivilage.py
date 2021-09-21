@@ -1,15 +1,15 @@
+from app.Models.ValueQID import ValueQID, ValueQIDForm
+from django.forms import ModelForm
 from djongo import models
-from app.Models.Questions import Questions
 
 class  GeneralPrivilage(models.Model):
         
-    QuestionList=models.CharField(
-        to=Questions,
-        on_delete=models.CASCADE,
-    )
+    QuestionList=models.JSONField()
     
     def get_question_list(self):
         return self.QuestionList
 
     def set_question_list(self, value):
         self.QuestionList = value   
+
+
