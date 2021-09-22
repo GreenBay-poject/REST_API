@@ -10,3 +10,5 @@ earthengine-api
 pandas
 Pillow==7.0.0
 keras==2.6.0
+matplotlib
+tensorflow==2.6.0
