@@ -53,11 +53,6 @@ def add_questions(request):
         question_ref = question.pk
         print(question.get_title())
         print(question.pk)
-        # else:
-        #     question_ref = question_list.first().pk
-        # print(question_ref)
-        # print(question_list)
-        # question_list=[]
         question_list.append(question_ref)
         print(question_list)
         privilege.set_question_list(question_list)
@@ -90,28 +85,34 @@ def view_questions(request):
         response = []
         # iterate through user list
         for user in user_list:
-            if not user.get_is_auhtorized():
-                continue
             user_data = {}
             # set email
             user_data['email'] = user.get_user_email()
-            print("hiiii isuruu")
+            print(user.get_user_email())
             # get privilege id
             privilege_id = user.get_privilage()
             # Get Privilege Object
             privilege = GeneralPrivilage.objects.filter(id=privilege_id).first();
             # Get Posts list
             questions_list = privilege.get_question_list()
-            print(questions_list.count())
-            if questions_list.count() > 0:
-                question=Questions.objects.filter(id=questions_list[0]).first().get_title()
-                print("hiii")
-                print(question)
-                user_data['Title']=question.Title
+            print(questions_list)
+            if len(questions_list) < 1:
+                continue
+            questionObj = []
+            for questionref in questions_list:
+                question=Questions.objects.filter(id=questionref).first();
+                Question={}
+                Question['title']=question.get_title()
+                Question['question']=question.get_question()
+                Question['dateposted']=question.get_date_posted()
+                Question['q_id'] = question.pk
+                Question['answer'] = question.get_answeres_list()
+                questionObj.append(Question)
+            user_data['questions'] = questionObj
             response.append(user_data)
 
         # Send response
-        return JsonResponse({'ALL_POSTS': response}, status=status.HTTP_200_OK)
+        return JsonResponse({'ALL_QUESTIONS': response}, status=status.HTTP_200_OK)
 
     except Exception as e:
         # Unexpected Exception Occurred
@@ -133,20 +134,20 @@ def delete_questions(request):
         # get privilege id
         privilege_id = user.get_privilage()
         # Get Privilege Object
-        privilege = AuthPrivilage.objects.filter(id=privilege_id).first();
+        privilege = GeneralPrivilage.objects.filter(id=privilege_id).first();
         # Get Posts list
-        post_list = privilege.get_feed_posts()
-        print(post_list)
+        question_list = privilege.get_question_list()
+        print(question_list)
         # Delete Post From List
-        removed_post = None
-        for post in post_list:
+        removed_question = None
+        for question in question_list:
             i = 0
-            if post['post_id'] == body['post_id']:
-                removed_post = post_list.pop(i)
+            if question['q_id'] == body['Question_id']:
+                removed_question = question_list.pop(i)
             i = i + 1
         print(post_list)
         # Update post list
-        privilege.set_feed_posts(post_list)
+        privilege.set_question_list(post_list)
         print("A")
         # Save privilege list
         privilege.save()
@@ -159,47 +160,32 @@ def delete_questions(request):
 
 
 @csrf_exempt
-@api_view(['GET'])
+@api_view(['POST'])
 @require_validation(ANSWER_QUESTIONS)
 @role_required(ALLOWS_MINISTRY_USERS_ONLY)
-def answer_question(request):
+def answer_questions(request):
     try:
-        print("A")
+        # Convert request to Python Dictionary
+        body = json.loads(request.body)
         # Get users list
-        user_list = Users.objects.all();
-        # response
-        print("A")
-        print(len(user_list))
-        print("B")
-        response = []
-        # iterate through user list
-        for user in user_list:
-            if not user.get_is_auhtorized():
-                continue
-            user_data = {}
-            # set email
-            user_data['email'] = user.get_user_email()
-            # get privilege id
-            privilege_id = user.get_privilage()
-            # Get Privilege Object
-            privilege = AuthPrivilage.objects.filter(id=privilege_id).first();
-            # Get Posts list
-            post_list = privilege.get_feed_posts()
-            # set post list
-            user_data['posts'] = post_list
-            # get ministry id
-            ministry_id = privilege.get_ministry_refrence()
-            # get ministry name
-            ministry_name = Ministry.objects.filter(id=ministry_id).first().get_ministry_name()
-            # set ministry name
-            user_data['ministry_name'] = ministry_name
-            # Add data to response
-            response.append(user_data)
+        user_list = Users.objects.filter(UserEmail=body['email']);
+        # Get the user object
+        user = user_list.first()
+        question = Questions.objects.filter(id=body['question_id']).first();
+
+        answer_list=question.get_answeres_list()
+
+        post_dictionary = {'post_id': int(time() * 1000), 'Answere': body['answer'], 'AuthorsID': user.pk, 'DatePosted': datetime.now()}
+
+        answer_list.append(post_dictionary)
+
+        question.set_answeres_list(answer_list)
+
+
             
         # Send response
-        return JsonResponse({'ALL_POSTS':response}, status=status.HTTP_200_OK)
+        return JsonResponse({'ALL_POSTS':[]}, status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
         return JsonResponse({'Message':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
