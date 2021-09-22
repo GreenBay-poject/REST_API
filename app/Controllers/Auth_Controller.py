@@ -84,7 +84,7 @@ def loginuser(request):
         # Get User data
         user_list=Users.objects.filter(UserEmail=body['email']);
         count_of_existance=user_list.count()
-        print(count_of_existance)
+        #print(count_of_existance)
         # Specific user object
         user=None
         # If user not registered
@@ -92,8 +92,8 @@ def loginuser(request):
             return JsonResponse({'Message':"Not Registered"},status=status.HTTP_400_BAD_REQUEST)
         # User registered
         else:
-            print("A")
-            print(str(user_list))
+            #print("A")
+            #print(str(user_list))
             # get user object
             user=user_list.first()
             # check password
@@ -104,14 +104,14 @@ def loginuser(request):
                 return JsonResponse({'Message':"Wrong Password"},status=status.HTTP_400_BAD_REQUEST)
             # password valid
             else:
-                print("IM D")
+                #print("IM D")
                 token=generate_token()
-                print("IM A")
+                #print("IM A")
                 tokenlist=user.get_tokens()
-                print(tokenlist)
+                #print(tokenlist)
                 tokenlist.append(token)
                 user.set_tokens(tokenlist)
-                print("IM B")
+                #print("IM B")
                 user.save()
                      
             

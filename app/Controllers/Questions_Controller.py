@@ -175,19 +175,36 @@ def answer_questions(request):
         # Get question to answere
         question = Questions.objects.filter(id=body['question_id']).first();
         # Get answere list
-        answer_list=question.get_answeres_list()
+        # answer_list=question.get_answeres_list()
         # Put answere to list
-        answer_list.append({
-            'answered_by': username,
-            'answer':body['answer'],
-            'time_answered':datetime.now()
-        })
-        # Set answer list
+        print(username)
+        print(body['answer'])
+        time=datetime.now()
+        print(time)
+        
+        answer=Answeres()
+
+    #      Answere=models.CharField(max_length=2000)
+    # DatePosted=models.DateTimeField()
+    # # AuthorsID=models.CharField(max_length=500)
+    #     answer.set_answere(body['answer'])
+    #     answer.set_authors_id(username)
+    #     answer.set_date_posted(time)
+        # Set Answer
+        answer_list= [{
+            'AuthorsID': username,
+            'Answere':body['answer'],
+            'DatePosted':datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        }]
+        # # Set answer list
+        print('AAA')
         question.set_answeres_list(answer_list)
+        print('AAA')
         # Save Updated Question
         question.save()
+        print('AAA')
         # Send response
-        return JsonResponse({'Question':question}, status=status.HTTP_200_OK)
+        return JsonResponse({'Answere List':answer_list}, status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
