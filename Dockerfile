@@ -16,4 +16,7 @@ WORKDIR /REST_API
 ADD . /REST_API/
 
 # Install any needed packages specified in requirements.txt
+RUN pip uninstall earthengine-api
+RUN pip uninstall ee
 RUN pip install -r requirments.txt
+
