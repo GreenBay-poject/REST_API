@@ -170,20 +170,24 @@ def answer_questions(request):
         user_list = Users.objects.filter(UserEmail=body['email']);
         # Get the user object
         user = user_list.first()
+        # Get user Name
+        username=user.get_user_name()
+        # Get question to answere
         question = Questions.objects.filter(id=body['question_id']).first();
-
+        # Get answere list
         answer_list=question.get_answeres_list()
-
-        post_dictionary = {'post_id': int(time() * 1000), 'Answere': body['answer'], 'AuthorsID': user.pk, 'DatePosted': datetime.now()}
-
-        answer_list.append(post_dictionary)
-
+        # Put answere to list
+        answer_list.append({
+            'answered_by': username,
+            'answer':body['answer'],
+            'time_answered':datetime.now()
+        })
+        # Set answer list
         question.set_answeres_list(answer_list)
-
-
-            
+        # Save Updated Question
+        question.save()
         # Send response
-        return JsonResponse({'ALL_POSTS':[]}, status=status.HTTP_200_OK)
+        return JsonResponse({'Question':question}, status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
