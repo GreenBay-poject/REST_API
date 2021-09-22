@@ -140,19 +140,18 @@ def delete_questions(request):
         print(question_list)
         # Delete Post From List
         removed_question = None
+        i = 0
         for question in question_list:
-            i = 0
             if question['q_id'] == body['Question_id']:
                 removed_question = question_list.pop(i)
             i = i + 1
-        print(post_list)
+        #print(post_list)
         # Update post list
-        privilege.set_question_list(post_list)
-        print("A")
-        # Save privilege list
+        privilege.set_question_list(question_list)        
+        # if no error save
         privilege.save()
         # Send response
-        return JsonResponse({'Deleted Post':removed_post, 'All Posts By The user':privilege.get_feed_posts()}, status=status.HTTP_200_OK)
+        return JsonResponse({'Deleted Question ID':removed_question, 'All Posts By The user':question_list}, status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
