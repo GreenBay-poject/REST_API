@@ -34,15 +34,23 @@ class LandReport(Report):
                 print(box)
                 # add to tiles
                 tiles.append(img.crop(box))
-        for image in tiles:
-            image.show()
+        # showit=0
+        # for image in tiles:
+        #     if showit==2:
+        #         image[2].show()
+        #     showit+=1
+        tiles[2].show()
         # tag list
         list_of_tags=[]
+        tile_tags=[]
         # Return Predicted Value
         for img in tiles:
+            tile_tag=[]
             tags=super().getModel().get_prediction(img)
             for tag in tags:
                 list_of_tags.append(tag)
+                tile_tag.append(tag)
+            tile_tags.append(tile_tag)
         # Get count dict
         counts = dict()
         for i in list_of_tags:
@@ -64,5 +72,5 @@ class LandReport(Report):
         for key in counts.keys():
             report[key]=round((counts[key]/float(sum))*100,2)
         # return tag list
-        return report #super().getModel().get_prediction(img)
+        return [report,tile_tags] #super().getModel().get_prediction(img)
         
