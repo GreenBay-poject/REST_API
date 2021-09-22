@@ -125,33 +125,29 @@ def view_questions(request):
 @role_required(ALLOWS_MINISTRY_USERS_ONLY)
 def delete_questions(request):
     try:
+        # Removed Question
+        removed_question = None
         # Convert request to Python Dictionary 
         body = json.loads(request.body)
         # Get users list
-        user_list = Users.objects.filter(UserEmail=body['email']);
-        # Get the user object
-        user = user_list.first()
-        # get privilege id
-        privilege_id = user.get_privilage()
-        # Get Privilege Object
-        privilege = GeneralPrivilage.objects.filter(id=privilege_id).first();
-        # Get Posts list
-        question_list = privilege.get_question_list()
-        print(question_list)
-        # Delete Post From List
-        removed_question = None
-        i = 0
-        for question in question_list:
-            if question['q_id'] == body['Question_id']:
-                removed_question = question_list.pop(i)
-            i = i + 1
-        #print(post_list)
-        # Update post list
-        privilege.set_question_list(question_list)        
-        # if no error save
-        privilege.save()
-        # Send response
-        return JsonResponse({'Deleted Question ID':removed_question, 'All Posts By The user':question_list}, status=status.HTTP_200_OK)
+        privileges = GeneralPrivilage.objects.all();
+        for privilege in privileges:
+            # Get Question list
+            question_list = privilege.get_question_list()
+            print(question_list)
+            # Delete Post From List
+            i = 0
+            for question in question_list:
+                if question == body['question_id']:
+                    removed_question = question_list.pop(i)
+                i = i + 1
+            #print(post_list) 
+            # Update post list
+            privilege.set_question_list(question_list)        
+            # if no error save
+            privilege.save()
+            # Send response
+        return JsonResponse({'Deleted Question ID':removed_question}, status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
@@ -181,16 +177,7 @@ def answer_questions(request):
         print(body['answer'])
         time=datetime.now()
         print(time)
-        
         answer=Answeres()
-
-    #      Answere=models.CharField(max_length=2000)
-    # DatePosted=models.DateTimeField()
-    # # AuthorsID=models.CharField(max_length=500)
-    #     answer.set_answere(body['answer'])
-    #     answer.set_authors_id(username)
-    #     answer.set_date_posted(time)
-        # Set Answer
         answer_list= [{
             'AuthorsID': username,
             'Answere':body['answer'],
