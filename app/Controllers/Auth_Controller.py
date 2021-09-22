@@ -85,6 +85,8 @@ def loginuser(request):
         user_list=Users.objects.filter(UserEmail=body['email']);
         count_of_existance=user_list.count()
         print(count_of_existance)
+        # Specific user object
+        user=None
         # If user not registered
         if(count_of_existance==0):
             return JsonResponse({'Message':"Not Registered"},status=status.HTTP_400_BAD_REQUEST)
@@ -113,7 +115,7 @@ def loginuser(request):
                 user.save()
                      
             
-                return JsonResponse({"UserEmail":user.get_user_email(),"Token":token},status=status.HTTP_200_OK)
+                return JsonResponse({"UserEmail":user.get_user_email(),"IsAuthorized":user.get_is_auhtorized(),"Token":token},status=status.HTTP_200_OK)
           
     except Exception as e:
         # Unexpected Exception Occurred
