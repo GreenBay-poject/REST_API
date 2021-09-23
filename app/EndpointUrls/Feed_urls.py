@@ -5,5 +5,4 @@ urlpatterns = [
     url(r'^view_my_posts$', Feed_Controller.view_my_posts),
     url(r'^delete_post$', Feed_Controller.delete_post),
     url(r'^view_posts$', Feed_Controller.view_posts),
-    
 ]

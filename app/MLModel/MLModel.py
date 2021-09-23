@@ -10,7 +10,7 @@ import os
 class MLModel:
     
     def printMe(self):
-        print("I am OK")
+        pass
     # create a mapping of tags to integers given the loaded mapping file
     def create_tag_mapping(self,mapping_csv):
         # create a set of all known tags

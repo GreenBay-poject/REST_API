@@ -23,3 +23,10 @@ VIEW_PUBLIC_NOTES=[]
 GET_DATES=['lattitude','longitude']
 GET_IMAGE=['lattitude','longitude','date']
 GENERATE_LAND_REPORT=['url']
+GENERATE_DEFORESTATION_REPORT=['url_1','url_2']
+
+#NOTE
+ADD_QUESTIONS=['email','title','question']
+VIEW_QUESTIONS=['email']
+DELETE_QUESTIONS=['email','question_id']
+ANSWER_QUESTIONS=['email','question_id','answer']

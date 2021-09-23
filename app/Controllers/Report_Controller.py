@@ -6,13 +6,13 @@ from time import time
 from django.views.decorators.csrf import csrf_exempt
 from app.Validator.Validator import require_validation
 from app.AccessController.Rules import role_required
-from app.Validator.RequiredFields import GET_DATES, GET_IMAGE,\
+from app.Validator.RequiredFields import  GENERATE_DEFORESTATION_REPORT, GET_DATES, GET_IMAGE,\
     GENERATE_LAND_REPORT
 from app.AccessController.Roles import ALLOWS_ALL
 from app.GoogleEE.APIManager import APIManager
 from datetime import datetime as dt
 from app.Report_Factory.ReportFactory import ReportFactory
-from app.Report_Factory.FacoryValues import LAND_REPORT
+from app.Report_Factory.FacoryValues import DEFORESTATION_REPORT, LAND_REPORT
 
 @csrf_exempt
 @api_view(['GET'])
@@ -90,6 +90,35 @@ def generate_land_report(request):
         reportObject=ReportFactory().create_report(LAND_REPORT)
         # set url to report
         reportObject.set_urls([url])
+        # Generated Report
+        report=reportObject.generate_report()
+        print(report)
+        # Return Report
+        return JsonResponse({'Report':report},status=status.HTTP_200_OK)
+     
+    except Exception as e:
+        
+        # Unexpected Exception Occurred
+        return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@csrf_exempt
+@api_view(['POST'])
+@require_validation(GENERATE_DEFORESTATION_REPORT)
+@role_required(ALLOWS_ALL)
+def generate_deforestation_report(request):
+    try:
+        # Convert request to Python Dictionary 
+        body=json.loads(request.body)
+        # Process Data
+        url1=body['url_1']
+        url2=body['url_2']
+        print(url1)
+        print(url2)
+        # Generate Deforestation Report Object
+        reportObject=ReportFactory().create_report(DEFORESTATION_REPORT)
+        # set url to report
+        reportObject.set_urls([url1,url2])
         # Generated Report
         report=reportObject.generate_report()
         print(report)
