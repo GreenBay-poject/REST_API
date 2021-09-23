@@ -37,7 +37,7 @@ def get_dates(request):
         
         
         # Return All Dates
-        return JsonResponse({'All Dates Available':date_list_converted},status=status.HTTP_200_OK)
+        return JsonResponse({'All_Dates_Available':date_list_converted},status=status.HTTP_200_OK)
      
     except Exception as e:
         
