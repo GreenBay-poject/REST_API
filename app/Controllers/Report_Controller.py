@@ -129,3 +129,4 @@ def generate_deforestation_report(request):
         
         # Unexpected Exception Occurred
         return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+ 
