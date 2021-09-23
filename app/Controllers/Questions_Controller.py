@@ -1,3 +1,4 @@
+from app.Helpers.QnAHelpers import send_answer_added_email
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
 from rest_framework import status
@@ -173,10 +174,7 @@ def answer_questions(request):
         # Get answere list
         # answer_list=question.get_answeres_list()
         # Put answere to list
-        print(username)
-        print(body['answer'])
         time=datetime.now()
-        print(time)
         answer=Answeres()
         answer_list= [{
             'AuthorsID': username,
@@ -184,14 +182,47 @@ def answer_questions(request):
             'DatePosted':datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }]
         # # Set answer list
-        print('AAA')
         question.set_answeres_list(answer_list)
-        print('AAA')
         # Save Updated Question
         question.save()
-        print('AAA')
         # Send response
-        return JsonResponse({'Answere List':answer_list}, status=status.HTTP_200_OK)
+        q_title=question.get_title()
+        q_desc=question.get_question()
+        answer=body['answer'],
+        uname=username
+
+        # Get Question ID
+        try:
+            q_id=question.pk
+            # Get privilege ID for that question
+            privilege_of_q=None
+            privileges = GeneralPrivilage.objects.all()
+            #print(privileges)
+            for privilege in privileges:
+                # Get Question list
+                #print(privilege.pk)
+                question_list = privilege.get_question_list()
+                #print(question_list)
+                #Check
+                for question in question_list:
+                    if question == q_id:
+                        privilege_of_q=privilege
+            # User to Send None
+            user_to_send=None
+            # Get all users
+            users=Users.objects.all()
+            # Iterate
+            for user in users:
+                # Check unauthorized user with similarpriviege
+                if user.IsAuhtorized==False and str(user.Privilage)==str(privilege_of_q.pk):
+                    # user found
+                    user_to_send=user
+            # Send Mail
+            send_answer_added_email(user_to_send.UserEmail,q_title,q_desc,answer[0],uname)
+        except:
+            return JsonResponse({'Answere List':answer_list,'Email_send':'Failed'}, status=status.HTTP_200_OK)
+
+        return JsonResponse({'Answere List':answer_list,'Email_send':'Success'}, status=status.HTTP_200_OK)
      
     except Exception as e:
         # Unexpected Exception Occurred
