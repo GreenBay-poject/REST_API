@@ -1,4 +1,9 @@
+from app.Reports.Generate_Report import Generate_Report
 from app.Reports.Report import Report
+from io import BytesIO
+import requests
+from PIL import Image
+import matplotlib.pyplot as plt
 
 
 
@@ -16,5 +21,14 @@ class DeforestationReport(Report):
     
     def generate_report(self):
         print("I am Generating Deforestation Report")
-        return "OK"
+        
+        # load the image
+        response = requests.get(self.url1)
+        report_1,tile_tags_1=Generate_Report(response,super())
+
+        # load the image
+        response = requests.get(self.url2)
+        report_2,tile_tags_2=Generate_Report(response,super())
+
+        return [report_1,tile_tags_1,report_2,tile_tags_2] #super().getModel().get_prediction(img)
         
