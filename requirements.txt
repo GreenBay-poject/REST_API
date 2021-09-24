@@ -11,7 +11,7 @@ pandas
 Pillow==7.0.0
 keras==2.6.0
 matplotlib
-tensorflow==2.0.0
+tensorflow-cpu
 gunicorn
 dj-database-url
 whitenoise
