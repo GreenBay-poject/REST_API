@@ -19,4 +19,4 @@ ADD . /REST_API/
 RUN pip uninstall earthengine-api
 RUN pip uninstall ee
 RUN pip install -r requirments.txt
-
+ 
