@@ -1,2 +1,4 @@
 env_rest_api
 *.pyc
+env/
+db.sqlite3
