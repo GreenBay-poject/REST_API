@@ -92,8 +92,8 @@ def delete_note(request):
         note_list=user.get_notes()
         # Delete Note From List
         deleted_note=None
-        for note in note_list:
-            i=0
+        i=0
+        for note in note_list:            
             if note['note_id']==body['note_id']:
                 deleted_note=note_list.pop(i)
             i=i+1

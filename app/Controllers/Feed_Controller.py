@@ -135,8 +135,8 @@ def delete_post(request):
         print(post_list)
         # Delete Post From List
         removed_post = None
+        i = 0
         for post in post_list:
-            i = 0
             if post['post_id'] == body['post_id']:
                 removed_post = post_list.pop(i)
             i = i + 1
