@@ -91,7 +91,8 @@ DATABASES={
     'ENGINE': 'djongo',
     'NAME': 'back_rest_api',
     'CLIENT': {
-        'host':'mongodb+srv://greenbaypid3:supirikollo3@cluster0.w7tcg.mongodb.net/back_rest_api?retryWrites=true&w=majority',
+       'host':'mongodb+srv://greenbaypid3:supirikollo3@cluster0.w7tcg.mongodb.net/back_rest_api?retryWrites=true&w=majority',
+       'authMechanism': 'SCRAM-SHA-1',
        'port': 27017,
        'username': 'greenbaypid3',
        'password': 'supirikollo3'
