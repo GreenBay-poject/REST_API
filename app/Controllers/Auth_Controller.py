@@ -7,7 +7,7 @@ from datetime import datetime
 import hashlib
 from django.views.decorators.csrf import csrf_exempt
 from app.Validator.Validator import require_validation
-from app.Validator.RequiredFields import REGISTER_FIELDS, LOGIN_FIELDS,\
+from app.Validator.RequiredFields import CHANGE_PASSWORD, REGISTER_FIELDS, LOGIN_FIELDS,\
     LOGOUT_FIELDS, FORGET_PASSWORD_FIELDS, REGISTER_AUTH_FIELDS, GET_USER_FIELDS
 from app.AccessController.Rules import role_required
 from app.AccessController.Roles import ALLOWS_ALL,\
@@ -315,8 +315,39 @@ def register_auth_user(request):
         # Unexpected Exception Occurred
         return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-    
-    
-     
-     
+@csrf_exempt
+@api_view(['POST'])
+@require_validation(CHANGE_PASSWORD)
+@role_required(ALLOWS_REGULAR_AND_MINISTRY_USERS)
+def change_password(request):
+    try:
+        #Convert request to Python Dictionary 
+        body=json.loads(request.body)
+        # Get User data
+        user_list=Users.objects.filter(UserEmail=body['email']);
+        count_of_existance=user_list.count()
+        #print(count_of_existance)
+        # Specific user object
+        user=None
+        # If user not registered
+        if(count_of_existance==0):
+            return JsonResponse({'Message':"Not Registered"},status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print(str(user_list))
+            # get user object and token value
+            user=user_list.first()
+            # Generate New Password
+            password = body['new_password']
+            # Assign Password
+            user.set_user_password(hashlib.sha256(str(password).encode('utf-8')).hexdigest())
+            # Send Password via a mail
+            #send_password_to(user)
+            # Save user to MongoDB
+            user.save()
+             
+            return JsonResponse({"Message": "New Password Set Successfully"},status=status.HTTP_200_OK)
+          
+    except Exception as e:
+        # Unexpected Exception Occurred
+        return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+ 

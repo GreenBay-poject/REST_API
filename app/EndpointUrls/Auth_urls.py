@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^login$', Auth_Controller.loginuser),
     url(r'^logout$', Auth_Controller.logout),
     url(r'^forget$', Auth_Controller.forget_password),
+    url(r'^changepassword$', Auth_Controller.change_password),
 ]

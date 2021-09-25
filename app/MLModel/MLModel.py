@@ -7,6 +7,7 @@ from io import BytesIO
 import requests
 from PIL import Image
 import os
+import gc
 
 class MLModel:
     
@@ -64,6 +65,11 @@ class MLModel:
         model = H5.load_model()#load_model(model_path)
         # predict the class
         result = model.predict(img)
+        # Memory Save
+        # print(gc.get_count())
+        del model
+        gc.collect()
+        # print(gc.get_count())
         # map prediction to tags
         tags = self.prediction_to_tags(inv_mapping, result[0])
         # return result
