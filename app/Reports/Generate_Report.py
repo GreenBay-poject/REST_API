@@ -21,7 +21,7 @@ def Generate_Report(response,super):
                 # add to tiles
                 tiles.append(img.crop(box))
         # Sample Portion
-        tiles[2].show()
+        # tiles[2].show()
         # tag list
         list_of_tags=[]
         tile_tags=[]

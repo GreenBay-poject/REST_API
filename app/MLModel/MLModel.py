@@ -1,4 +1,5 @@
 # make a prediction for a new image
+from app.MLModel.H5 import H5
 from pandas import read_csv
 from keras.preprocessing.image import img_to_array
 from keras.models import load_model
@@ -58,9 +59,9 @@ class MLModel:
         # load the image
         img = self.load_image(img)
         # Path to model
-        model_path=os.path.join(os.path.dirname(os.path.realpath(__file__)), 'final_model.h5')
+        #model_path=os.path.join(os.path.dirname(os.path.realpath(__file__)), 'final_model.h5')
         # load model
-        model = load_model(model_path)
+        model = H5.load_model()#load_model(model_path)
         # predict the class
         result = model.predict(img)
         # map prediction to tags
