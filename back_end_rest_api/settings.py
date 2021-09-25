@@ -152,7 +152,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #DataFlair
 EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'greenbaypid3@gmail.com'
@@ -165,3 +165,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 import django_heroku
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+# SendGrid
+# ========
+# greenbaypid3@gmail.com
+# supirikollo@3supirikollo@3
