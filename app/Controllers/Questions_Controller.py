@@ -88,6 +88,7 @@ def view_questions(request):
         for user in user_list:
             user_data = {}
             # set email
+            user_data['username'] = user.get_user_name()
             user_data['email'] = user.get_user_email()
             print(user.get_user_email())
             # get privilege id
@@ -104,6 +105,10 @@ def view_questions(request):
                 question=Questions.objects.filter(id=questionref).first();
                 Question={}
                 Question['title']=question.get_title()
+                if('@' in Question['title']):
+                    Question['ministry']=Question['title'].split('@')[0]
+                else:
+                    Question['ministry']='Others'
                 Question['question']=question.get_question()
                 Question['dateposted']=question.get_date_posted()
                 Question['q_id'] = question.pk
@@ -111,9 +116,32 @@ def view_questions(request):
                 questionObj.append(Question)
             user_data['questions'] = questionObj
             response.append(user_data)
+            flat_list=[]
+            # Make Flat JSON LIST
+            for user in response:
+                uname=user['username']
+                email=user['email']
+                for question in user['questions']:
+                    q={}
+                    q['uname']=uname
+                    q['email']=email
+                    q['ministry']=question['ministry']
+                    q['question']=question['question']
+                    q['dateposted']=question['dateposted']
+                    q['q_id']=question['q_id']
+                    q['answer']=question['answer']
+                    q['title']=question['title']
+                    flat_list.append(q)
+            # Categorize
+            bins = {}
+            for l in flat_list:
+                if l['ministry'] in bins:
+                    bins[l['ministry']].append(l)
+                else:
+                    bins[l['ministry']] = [l]
 
         # Send response
-        return JsonResponse({'ALL_QUESTIONS': response}, status=status.HTTP_200_OK)
+        return JsonResponse({'ALL_QUESTIONS': bins}, status=status.HTTP_200_OK)
 
     except Exception as e:
         # Unexpected Exception Occurred
