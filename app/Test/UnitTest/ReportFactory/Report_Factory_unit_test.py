@@ -9,23 +9,23 @@ from app.Models.Users import Users
 # Method Report Factory
 class Test_Method_Report_Factory(TestCase):
     pass
-    # def test0(self):
-    #     """Test : Check Report Factory for Land Report"""
-    #     report_factory=ReportFactory()
-    #     report=report_factory.create_report(LAND_REPORT)
-    #     self.assertIsInstance(report,LandReport)
-    # def test1(self):
-    #     """Test : Check Report Factory for Deforestation Report"""
-    #     report_factory=ReportFactory()
-    #     report=report_factory.create_report(DEFORESTATION_REPORT)
-    #     self.assertIsInstance(report,DeforestationReport)
-    # def test2(self):
-    #     """Test : Check Report Factory for None Type"""
-    #     report_factory=ReportFactory()
-    #     report=report_factory.create_report(None)
-    #     self.assertIsNone(report)
-    # def test3(self):
-    #     """Test : Check Report Factory for Other Type"""
-    #     report_factory=ReportFactory()
-    #     report=report_factory.create_report(1341)
-    #     self.assertIsNone(report)
+    def test0(self):
+        """Test : Check Report Factory for Land Report"""
+        report_factory=ReportFactory()
+        report=report_factory.create_report(LAND_REPORT)
+        self.assertIsInstance(report,LandReport)
+    def test1(self):
+        """Test : Check Report Factory for Deforestation Report"""
+        report_factory=ReportFactory()
+        report=report_factory.create_report(DEFORESTATION_REPORT)
+        self.assertIsInstance(report,DeforestationReport)
+    def test2(self):
+        """Test : Check Report Factory for None Type"""
+        report_factory=ReportFactory()
+        report=report_factory.create_report(None)
+        self.assertIsNone(report)
+    def test3(self):
+        """Test : Check Report Factory for Other Type"""
+        report_factory=ReportFactory()
+        report=report_factory.create_report(1341)
+        self.assertIsNone(report)
