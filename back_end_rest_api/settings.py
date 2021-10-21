@@ -162,11 +162,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-import django_heroku
-# Activate Django-Heroku.
-django_heroku.settings(locals())
+# import django_heroku
+# # Activate Django-Heroku.
+# django_heroku.settings(locals())
 
 # SendGrid
 # ========
 # greenbaypid3@gmail.com
 # supirikollo@3supirikollo@3
+
