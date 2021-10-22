@@ -51,7 +51,7 @@ def add_post(request):
         privilege.set_feed_posts(post_list)
         print("A")
         # Save privilege list
-        #####################################privilege.save()
+        privilege.save()
         # Notify users when add posts
         try:
             # Get all user mails
