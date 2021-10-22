@@ -12,4 +12,4 @@ class Mail_Observer(observer):
         print("to:"+str(self.mail_list))
         subject = dictionary['Title']
         message1 = dictionary['Description'] 
-        send_mail(subject,message1, EMAIL_HOST_USER,self.mail_list, fail_silently = True)
+        #send_mail(subject,message1, EMAIL_HOST_USER,self.mail_list, fail_silently = True)
