@@ -25,9 +25,10 @@ class Push_Notification_Observer(observer):
             filename = os.path.join(dirname, 'firekey.json')
             
             cred = credentials.Certificate(filename)
-            firebase_admin.initialize_app(cred,{
-                'databaseURL' : 'https://greenbay-app-default-rtdb.firebaseio.com/'
-            })
+            if not firebase_admin._apps:
+                firebase_admin.initialize_app(cred,{
+                    'databaseURL' : 'https://greenbay-app-default-rtdb.firebaseio.com/'
+                })
 
             result=db.reference('Users/').get()
             print(result.keys())
