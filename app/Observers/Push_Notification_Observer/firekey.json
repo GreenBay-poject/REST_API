@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "greenbay-app",
+  "private_key_id": "da2784d7c799fc85a7a7794cba828d7fea42380b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDG1FPCDukXp+ti\n1w9p+1/Bqi1jpotMM0Hevde0fhhfttfxTyog4+bwlx9dlop+x0AUco7we8eU0jCF\nFKdHkinmd26ovm5b7OXyYhxcWMFa4BoZe+TahoQVC1X5ZccMg/MT4rVGT1Dr1I7e\n4cbgau/ccJe1c6DK0ihBMHzWl/9ZDpAxhrYPfSAs29d1O9Q67yEV28k1Fq2iwF62\nZBFmNRnDD5cgW1W0jR3ZIbT6dnXWTh1V2DCKa9f12JG2UeMk+dOPJHdKr7GYUMDr\nCsoPrYMGGV/gp5QqgZ2m0MFzX5d60EO+zbXXQZc4lItQNnE5odgLTbyxa2Rb0/mc\n6d3Fx9i7AgMBAAECggEAKCz+Ma+mnN+S2hl/pVgkXLMg0cp0yjRvQm1U2UVDco+1\nKa7n4dZ7MzEuJtCE8qIbSiZtyJ0SUnl4UWO/e2BG9Ck85H76OLvxKN13QpeylkTD\nMVQOBbP5m3D7cdYFdvtwkhuUqnzbapO8PMAdWfpxtjbQCNuw6Vq2xJliGFCFSb6i\n2H7rQ+yzdMDpVeVW1m5wcv5slrbP/kad3MICsAD+q3gF8IEFSQibeY05zJlpLwG+\nyclACHR5Dgb/zJqZ11Dz6HzN9Vpyj/i7UflbAJMy95HDKo+MkyYwRGdVoz8w5sS6\nog+CSMpbYSzzdqW4iw9E/Ds55E6yU8qg65lphb+M1QKBgQDqlFXEd3sc1fOf0APi\ncVA0LN3nzbeZe39PBzdgnyPSCV6J7URjs4pVrHvQN5tmOGX8kECMMdZzRFYbVfFZ\nByfmo1yxeD/FzpNIdOub9iNCYINKdXh0mYIZBD0wXhzdgnu+0nekt6ibTYCAUilr\nK6uiwVvRWg95Lbiws03wLgW5rQKBgQDY/EdYF+0lk6jWMDg/0JMqFimlVmjlLPRy\nc8y6ovFUyNz+iTQVD5lE9RqrasRK3ryqJuXQLTtsZaanmkcIS8t234eVOBXHasH/\niaS22AfcAq7rm463Rxj9PmXJ2Vhp6xNkhIWxiq7L7TyvZZtyPSxiZjub/l+gtHju\n4WL+b/F5BwKBgB5xO6QwgUift2sg+rATVn4+6FlhyBbiAQaHgDdIz8Q9NQifQwXR\nUf2GUdcWsFMWtJ2PNuE6woLY9ne7soOEOzhiMPBTE6ufAFwh2EW4LqE5lzA9iHFR\nTqHie/Jf9E0G1vpPo/k7YGUvLKL6hqeC1lZb04easXFfbp1314B46INNAoGAbL4h\n0xhKlOZnWtBXoEObPSBWRrIDZ7cb2rAGDhLS9zai6j1AiL2EhnZ/oyCitxLhYjSU\nP7wrZ6uZ1a0PpCy4Dx7/B91PrNzn1HTaw3eImM4Pc6xF3bwX3fKDeKEgGhThZyKz\nDcL+ztxZ6Vz2hk36DGZHwWm96wAHC1CRGApp7ckCgYAu5WKyZtoO9PdDmmq+FCgm\noUn+KUuaZz2pdCx/7t244PgR+cAec7YeZhLzy+si4Z1OC9ZMjwk7hM7V6UHj5eyy\nKQQca8mOMDeXYYDaMco93CKlyd++5PWhI3LRNXo72QURoupM35I8x3Rm0eMkBTGT\n8otDc+5h6s1AgncwuQUhPw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-v8hvz@greenbay-app.iam.gserviceaccount.com",
+  "client_id": "118316101351187150337",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-v8hvz%40greenbay-app.iam.gserviceaccount.com"
+}

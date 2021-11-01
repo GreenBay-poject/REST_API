@@ -6,6 +6,7 @@ from app.Models.Users import Users
 from datetime import datetime
 import hashlib
 from django.views.decorators.csrf import csrf_exempt
+from app.Observers.Push_Notification_Observer.Push_Notification_Observer import Push_Notification_Observer
 from app.Validator.Validator import require_validation
 from app.Validator.RequiredFields import *
 from app.AccessController.Rules import role_required
@@ -75,7 +76,10 @@ def add_post(request):
                     mail_chunk = []
             mailObserver = Mail_Observer(mail_chunk)
             postObservable.attach(mailObserver)
-            # Notifiy Mail Observer
+            # Add Push Observer
+            push_observer=Push_Notification_Observer()
+            postObservable.attach(push_observer)
+            # Notifiy ALL Observers
             postObservable.notify(post_dictionary)
            
         except:
@@ -198,4 +202,3 @@ def view_posts(request):
     except Exception as e:
         # Unexpected Exception Occurred
         return JsonResponse({'Message':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-

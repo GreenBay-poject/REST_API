@@ -17,3 +17,5 @@ dj-database-url
 whitenoise
 psycopg2-binary
 django-heroku
+exponent_server_sdk
+firebase_admin
