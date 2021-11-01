@@ -70,7 +70,7 @@ class MLModel:
         result = model.predict(img)
         # Memory Save
         # # print(gc.get_count())
-        del model
+        # del model
         gc.collect()
         # print(gc.get_count())
         # map prediction to tags
