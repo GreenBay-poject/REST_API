@@ -42,7 +42,7 @@ jobs:
           ECR_REPOSITORY: demo
           IMAGE_TAG: ${{ steps.tag-number.outputs.tag }}
         run: |
-          aws ecr get-login-password \ --region us-east-2 \ | docker login \ --username AWS \ --password-stdin 904563845940.dkr.ecr.us-east-2.amazonaws.com
+          aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 904563845940.dkr.ecr.us-east-2.amazonaws.com
           docker build -t demo "."
           docker tag demo:latest 904563845940.dkr.ecr.us-east-2.amazonaws.com/demo
           docker push 904563845940.dkr.ecr.us-east-2.amazonaws.com/demo
