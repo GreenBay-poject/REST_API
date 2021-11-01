@@ -36,12 +36,12 @@ jobs:
           echo $RELEASE_VERSION
           echo ${{ steps.vars.outputs.tag }}
         
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build, tag, and push image to Amazon ECR B-AWS_DEPLOYEMENT
         env:
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
           ECR_REPOSITORY: demo
           IMAGE_TAG: ${{ steps.tag-number.outputs.tag }}
         run: |
-          docker build -t demo .
+          docker build -t demo
           docker tag demo:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
