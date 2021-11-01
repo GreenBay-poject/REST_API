@@ -35,6 +35,7 @@ def Generate_Report(response,super):
                     tile_tag.append('forest')
                 elif tag!='clear':
                     tile_tag.append(tag)
+            del tags
                 
 
             tile_tags.append(tile_tag)
@@ -59,4 +60,5 @@ def Generate_Report(response,super):
         for key in counts.keys():
             report[key]=round((counts[key]/float(sum))*100,2)
         # return
+        del img,img_bytes,tiles,list_of_tags
         return report,tile_tags

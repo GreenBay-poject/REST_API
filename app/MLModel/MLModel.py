@@ -9,6 +9,8 @@ from PIL import Image
 import os
 import gc
 
+
+
 class MLModel:
     
     def printMe(self):
@@ -57,6 +59,7 @@ class MLModel:
 
     # load an image and predict the class
     def run_model(self,inv_mapping,img):
+        # memory_usage_psutil()
         # load the image
         img = self.load_image(img)
         # Path to model
@@ -73,6 +76,7 @@ class MLModel:
         # map prediction to tags
         tags = self.prediction_to_tags(inv_mapping, result[0])
         # return result
+        # memory_usage_psutil()
         return tags
 
     def get_prediction(self,img):

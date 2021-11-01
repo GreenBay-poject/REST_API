@@ -1,3 +1,4 @@
+import gc
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
 from rest_framework import status
@@ -74,6 +75,13 @@ def get_image(request):
         # Unexpected Exception Occurred
         return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+def memory_usage_psutil():
+    import os
+    import psutil
+    process = psutil.Process(os.getpid())
+    mem = process.memory_info()[0] / float(2 ** 20)
+    return mem
+
 
 @csrf_exempt
 @api_view(['POST'])
@@ -81,6 +89,7 @@ def get_image(request):
 @role_required(ALLOWS_ALL)
 def generate_land_report(request):
     try:
+        mem1=memory_usage_psutil()
         # Convert request to Python Dictionary 
         body=json.loads(request.body)
         # Process Data
@@ -93,11 +102,18 @@ def generate_land_report(request):
         # Generated Report
         report=reportObject.generate_report()
         print(report)
+        # Clear Memory
+        del reportObject
         # Return Report
+        gc.collect()
+        mem2=memory_usage_psutil()
+        print("Mem Consume at Begining : "+str(mem1))
+        print("Mem Consume at End : "+str(mem2))
+        print("Mem Consume for Call : "+str(mem2-mem1))
         return JsonResponse({'Report':report},status=status.HTTP_200_OK)
      
     except Exception as e:
-        
+         
         # Unexpected Exception Occurred
         return JsonResponse({'Message':str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -108,6 +124,7 @@ def generate_land_report(request):
 @role_required(ALLOWS_ALL)
 def generate_deforestation_report(request):
     try:
+        mem1=memory_usage_psutil()
         # Convert request to Python Dictionary 
         body=json.loads(request.body)
         # Process Data
@@ -123,6 +140,12 @@ def generate_deforestation_report(request):
         report=reportObject.generate_report()
         print(report)
         # Return Report
+        del reportObject
+        gc.collect()
+        mem2=memory_usage_psutil()
+        print("Mem Consume at Begining : "+str(mem1))
+        print("Mem Consume at End : "+str(mem2))
+        print("Mem Consume for Call : "+str(mem2-mem1))
         return JsonResponse({'Report':report},status=status.HTTP_200_OK)
      
     except Exception as e:
