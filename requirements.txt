@@ -18,3 +18,4 @@ whitenoise
 psycopg2-binary
 django-heroku
 pyparsing==2.4.2
+psutil
