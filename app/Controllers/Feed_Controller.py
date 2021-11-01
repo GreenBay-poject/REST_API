@@ -202,4 +202,3 @@ def view_posts(request):
     except Exception as e:
         # Unexpected Exception Occurred
         return JsonResponse({'Message':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-

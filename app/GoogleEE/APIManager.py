@@ -11,7 +11,7 @@ class APIManager:
         # Join Path
         path=os.path.join(os.path.dirname(os.path.realpath(__file__)), 'privatekey.json')
         # Print Path
-        print(path)
+        # print(path)
         # Create Credentials Object 
         credentials = ee.ServiceAccountCredentials(SERVICE_ACCOUNT_GEE, path)
         # Initialize EE
@@ -31,7 +31,7 @@ class APIManager:
         landsat_AOI=landsat_AOI#.sort('CLOUD_COVER')
         # Get dates
         date_list=landsat_AOI.aggregate_array('system:time_start').getInfo()
-        print(date_list)
+        #print(date_list)
         # Return Dates
         return date_list
     
