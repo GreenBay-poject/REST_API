@@ -103,7 +103,7 @@ def generate_land_report(request):
         report=reportObject.generate_report()
         print(report)
         # Clear Memory
-        del reportObject
+        # del reportObject
         # Return Report
         gc.collect()
         mem2=memory_usage_psutil()
