@@ -1,1 +1,1 @@
-from .Test.UnitTest.Report.GetDates_Test import  *
+from .Test.IntegrationTest.Auth.GetUserInfo_Test import  *

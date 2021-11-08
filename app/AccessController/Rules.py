@@ -22,6 +22,7 @@ def role_required(allowed_roles):
                 if token_status==True:
                     return view_func(request, *args, **kwargs)
                 else:
+                    print(token_status)
                     return JsonResponse({"Message":token_status},status=status.HTTP_400_BAD_REQUEST)
             # Logic For General And Ministry Users (Only Need Valid Token)
             if allowed_roles==ALLOWS_MINISTRY_USERS_ONLY:
@@ -29,12 +30,14 @@ def role_required(allowed_roles):
                 if token_status==True:
                     return view_func(request, *args, **kwargs)
                 else:
+                    print(token_status)
                     return JsonResponse({"Message":token_status},status=status.HTTP_400_BAD_REQUEST)
             if allowed_roles==ALLOWS_GENERAL_USERS_ONLY:
                 token_status=general_token_valid(request)
                 if token_status==True:
                     return view_func(request, *args, **kwargs)
                 else:
+                    print(token_status)
                     return JsonResponse({"Message":token_status},status=status.HTTP_400_BAD_REQUEST)
             
             # Private Function (No One Has Permission TO Access)
@@ -56,6 +59,8 @@ def token_valid(request):
     if(token==""):
         return 'Please Provide Token Field'
     #email registered
+    print(body['email'])
+    print(Users.objects.all().count())
     user_list=Users.objects.filter(UserEmail=body['email']);
     count_of_existance=user_list.count()
     if(count_of_existance==0):

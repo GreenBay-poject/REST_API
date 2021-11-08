@@ -171,8 +171,10 @@ def logout(request):
 @role_required(ALLOWS_REGULAR_AND_MINISTRY_USERS)
 def get_user_details(request):
     try:
+        print("OKOK")
         #Convert request to Python Dictionary 
         body=json.loads(request.body)
+        print(body)
         # Get User data
         user_list=Users.objects.filter(UserEmail=body['email']);
         
