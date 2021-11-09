@@ -12,7 +12,7 @@ def send_password_to(user,password):
     message1 = 'Congratulations! You are now member of GreenBay community, Here is your credintials for future logins\n\nEmail : {}\nPassword : {}\n\n'.format(user.UserEmail,password)
     message2 = 'Note : You can change password using account page'
     recepient = str(user.UserEmail)
-    send_mail(subject,message1+message2, EMAIL_HOST_USER, [recepient], fail_silently = False)
+    send_mail(subject,message1+message2, EMAIL_HOST_USER, [recepient], fail_silently = True)
     
 def generate_token():
     token={"value":None,"generated_time":None,"isvalid":None}

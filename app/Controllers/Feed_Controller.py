@@ -24,7 +24,7 @@ from app.Observers.Posts_observable.Post_Observable import Post_Observable
 @csrf_exempt
 @api_view(['POST'])
 @require_validation(ADD_POST)
-@role_required(ALLOWS_MINISTRY_USERS_ONLY)
+@role_required(ALLOWS_ALL) #ALLOWS_MINISTRY_USERS_ONLY
 def add_post(request):
     try:
         # Convert request to Python Dictionary 
@@ -91,7 +91,7 @@ def add_post(request):
 @csrf_exempt
 @api_view(['POST'])
 @require_validation(VIEW_MY_POSTS)
-@role_required(ALLOWS_MINISTRY_USERS_ONLY)
+@role_required(ALLOWS_ALL)  #ALLOWS_MINISTRY_USERS_ONLY
 def view_my_posts(request):
     try:
         # Convert request to Python Dictionary 
@@ -117,7 +117,7 @@ def view_my_posts(request):
 @csrf_exempt
 @api_view(['POST'])
 @require_validation(DELETE_MY_POSTS)
-@role_required(ALLOWS_MINISTRY_USERS_ONLY)
+@role_required(ALLOWS_ALL) #ALLOWS_MINISTRY_USERS_ONLY
 def delete_post(request):
     try:
         # Convert request to Python Dictionary 

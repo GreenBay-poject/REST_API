@@ -47,6 +47,7 @@ def registeruser(request):
             user.set_tokens([])
             # Generate Password 
             password = generate_password()
+            print(password)
             # Assign Password
             user.UserPassword=hashlib.sha256(str(password).encode('utf-8')).hexdigest()
             print("IAM 2")
@@ -59,7 +60,7 @@ def registeruser(request):
             user.set_is_auhtorized(False)
             user.set_privilage(general_privilege.pk)
             # Send Password via a mail
-            send_password_to(user,password)
+            # send_password_to(user,password)
             # Save user to MongoDB
             user.save()
             print("IAM 3")
