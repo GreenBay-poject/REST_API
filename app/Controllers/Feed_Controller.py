@@ -1,3 +1,4 @@
+import requests
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
 from rest_framework import status
@@ -98,6 +99,7 @@ def add_post(request):
 @role_required(ALLOWS_MINISTRY_USERS_ONLY)
 def view_my_posts(request):
     try:
+        print(request)
         # Convert request to Python Dictionary 
         body = json.loads(request.body)
         # Get users list
@@ -114,6 +116,7 @@ def view_my_posts(request):
         return JsonResponse({'All Posts By The user':post_list}, status=status.HTTP_200_OK)
      
     except Exception as e:
+        print(e)
         # Unexpected Exception Occurred
         return JsonResponse({'Message':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
